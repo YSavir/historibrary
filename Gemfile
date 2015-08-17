@@ -28,6 +28,25 @@ gem 'spring',        group: :development
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
+#
+
+# Development Tools
+
+group :test, :development do
+  gem 'pry'
+  gem 'pry-rails'
+  gem 'pry-bloodline'
+end
+
+# Testing Tools
+group :test do
+  gem 'rspec-rails'
+  gem 'capybara', :github => 'jnicklas/capybara'
+  gem 'selenium-webdriver'
+  gem 'guard-rspec'
+  gem 'guard-spork'
+  gem 'spork', '~> 1.0rc'
+end
 
 # Use unicorn as the app server
 # gem 'unicorn'
