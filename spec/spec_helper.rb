@@ -1,3 +1,5 @@
+ENV['RAILS_ENV'] ||= 'test'
+require File.expand_path('../../config/environment', __FILE__)
 require 'spork'
 require 'capybara/rspec'
 
@@ -12,6 +14,7 @@ Spork.prefork do
       mocks.verify_partial_doubles = true
     end
 
+    config.include FactoryGirl::Syntax::Methods
   end
 end
 

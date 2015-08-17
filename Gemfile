@@ -30,6 +30,11 @@ gem 'spring',        group: :development
 # gem 'bcrypt', '~> 3.1.7'
 #
 
+# Templating
+group :assets, :test do
+  gem 'handlebars_assets'
+end
+
 # Development Tools
 
 group :test, :development do
@@ -46,6 +51,8 @@ group :test do
   gem 'guard-rspec'
   gem 'guard-spork'
   gem 'spork', '~> 1.0rc'
+  gem 'factory_girl_rails'
+  gem 'shoulda-matchers'
 end
 
 # Use unicorn as the app server
