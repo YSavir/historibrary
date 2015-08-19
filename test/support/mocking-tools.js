@@ -4,7 +4,8 @@
   var mockEvent = function(){
     this.attributes = {
       name: 'Sample Event',
-      starting_date: '1/1/1640'
+      starting_date: '1/1/1640',
+      summary: 'This event has happened'
     };
   };
 
