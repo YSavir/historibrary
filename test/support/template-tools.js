@@ -1,11 +1,4 @@
-var HandlebarsTemplates = {
-      // Set up initial functions, since Sinon does not let you stub
-      // properties that don't yet exist....
-      'events/summary': function(){},
-      'events/list': function(){},
-      'events/details': function(){}
-    },
-    TemplateStrings = {};
+var TemplateStrings = {};
 
 (function(){
 
