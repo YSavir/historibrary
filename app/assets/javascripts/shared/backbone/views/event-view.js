@@ -15,7 +15,7 @@ App.Views.Event = Backbone.View.extend({
   _template: function(template, attributes){
     template = template || 'summary';
 
-    return HandlebarsTemplates['events/' + template](attributes);
+    return HandlebarsTemplates['events/' + template](this.model);
   },
 
   events: {
