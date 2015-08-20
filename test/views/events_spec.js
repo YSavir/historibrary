@@ -35,34 +35,34 @@ describe('views/events', function(){
 
     describe('when rendering a summary', function(){
       it('should populate its element with summary content', function(){
-        var model = mocks.models.event(),
+        var model = Doubles.Models.Event(),
             view = new App.Views.Event({model: model}),
-            templateStub = stubs.templates.eventSummary();
-        templateStub.returns(templateStrings.eventSummary);
+            templateStub = Stubs.Templates.EventSummary();
+        templateStub.returns(TemplateStrings.eventSummary);
 
         view.render({as: 'summary'});
 
-        expect(view.$el.html()).to.equal(templateStrings.eventSummary);
+        expect(view.$el.html()).to.equal(TemplateStrings.eventSummary);
       });
     });
 
     describe('when rendering as details', function(){
       it('should populate its element with details content', function(){
-        var model = mocks.models.event(),
+        var model = Doubles.Models.Event(),
             view = new App.Views.Event({model: model}),
-            templateStub = stubs.templates.eventDetails();
-        templateStub.returns(templateStrings.eventDetails);
+            templateStub = Stubs.Templates.EventDetails();
+        templateStub.returns(TemplateStrings.eventDetails);
 
         view.render({as: 'details'});
 
-        expect(view.$el.html()).to.equal(templateStrings.eventDetails);
+        expect(view.$el.html()).to.equal(TemplateStrings.eventDetails);
       });
     });
   });
 
   describe('renderDetails', function(){
     it('should call render as \'details\'', function(){
-      var model = mocks.models.event(),
+      var model = Doubles.Models.Event(),
           view = new App.Views.Event({model: model}),
           renderSpy = sandbox.spy(view, 'render'),
           argumentsHash = {as: 'details'};
