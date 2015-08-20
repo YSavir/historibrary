@@ -12,4 +12,7 @@ class Event < ActiveRecord::Base
     :presence => true,
     :length => { :maximum => 500 }
 
+  has_many :event_resources
+  has_many :resources, :through => :event_resources
 end
+

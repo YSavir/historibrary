@@ -50,7 +50,9 @@ group :test do
   gem 'guard-spork'
   gem 'spork', '~> 1.0rc'
   gem 'factory_girl_rails'
+  gem 'database_cleaner'
   gem 'shoulda-matchers'
+  gem 'rspec-collection_matchers'
 end
 
 # Use unicorn as the app server
