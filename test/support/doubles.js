@@ -5,8 +5,11 @@
     this.attributes = {
       name: 'Sample Event',
       starting_date: '1/1/1640',
+      ending_date: '1/1/1640',
       summary: 'This event has happened'
     };
+
+    this.dateRange = function(){ return '1/1/1640'; } 
   };
 
   Doubles.Models.Event = function(opts){
