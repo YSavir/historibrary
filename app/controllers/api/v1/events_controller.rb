@@ -1,6 +1,7 @@
 class Api::V1::EventsController < ApplicationController
 
   def index
-    render :json => Event.all
+    @events = Event.all
+    render :json => @events
   end
 end
