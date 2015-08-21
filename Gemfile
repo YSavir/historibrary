@@ -31,9 +31,7 @@ gem 'spring',        group: :development
 #
 
 # Templating
-group :assets, :test do
-  gem 'handlebars_assets'
-end
+gem 'handlebars_assets'
 
 # Development Tools
 
