@@ -12,11 +12,21 @@
     this.dateRange = function(){ return '1/1/1640'; } 
   };
 
+  EventDouble.prototype.withResources = function(totalResources){
+    this.attributes.resources = [];
+
+    for (var i = 0; i < totalResources; i++){
+      this.attributes.resources.push({});
+    };
+
+    return this;
+  };
+
   Doubles.Models.Event = function(opts){
     opts = opts || {};
     var modelDouble = new EventDouble();
 
-    for(prop in opts) {
+    for(var prop in opts) {
       modelDouble.attributes[prop] = opts[prop];
     };
 

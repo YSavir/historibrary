@@ -1,7 +1,7 @@
 json.array!(@events) do |event|
-  json.extract! event
+  json.extract! event, :id, :name, :start_date, :end_date, :summary
 
-  json.resources do |json, resource|
-    json.extract! resource
+  json.resources event.resources do |resource|
+    json.extract! resource, :id
   end
 end

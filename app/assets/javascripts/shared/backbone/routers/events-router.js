@@ -7,7 +7,7 @@ App.Routers.Event = Backbone.Router.extend({
     });
 
     this.collection.fetch({
-      success: function(){
+      success: function(coll, response){
         // get function for current path and call it
         // in case of timing issues
         var currentPath = Backbone.history.location.pathname;

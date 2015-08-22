@@ -4,8 +4,8 @@
 //= require underscore
 //= require backbone
 //= require handlebars.runtime
+//= require_tree ./templates
 //= require shared/setup.js
 //= require shared/backbone/models/event-model
-//= require_tree ./templates
 //= require_tree ./shared
 //= require_tree ./events

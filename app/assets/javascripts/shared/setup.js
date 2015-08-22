@@ -5,3 +5,7 @@ var App = {
   CollectionViews: {},
   Routers: {}
 };
+
+(function(){
+  Handlebars.registerPartial('resourceSummary', HandlebarsTemplates['resources/summary']);
+})();

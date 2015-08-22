@@ -9,7 +9,7 @@ RSpec.describe 'Viewing Event Resources', :type => :feature, :js => true do
       event_li = page.find('.events.content li')
       event_li.click
 
-      expect(event_li.find_all('li.resource-summary')).to have(3).list_elements
+      expect(event_li.find_all('li')).to have(3).list_elements
     end
   end
 end
