@@ -1,0 +1,43 @@
+.events.content {
+  padding: 20px;
+  margin-top: 100px;
+  background-color: lighten($hblack, 5);
+
+  &> ul {
+    list-style: none;
+
+    &:after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+
+    .bar {
+      width: 100%;
+      border: 2px solid $hparchment;
+    }
+
+    &>li {
+      background-color: lighten($hblack, 10);
+      display: inline-block;
+      width: 100px;
+
+      padding: 5px;
+      margin: 5px;
+      float: left;
+
+      text-align: top;
+
+      &:before {
+        position: relative;
+        top: -55px;
+        left: 50px;
+        float: left;
+        content: "";
+        height: 50px;
+        border: 1px solid $hparchment;
+      }
+
+    }
+  }
+}

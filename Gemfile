@@ -33,6 +33,9 @@ gem 'spring',        group: :development
 # Templating
 gem 'handlebars_assets'
 
+# Styling
+gem 'bourbon'
+
 # Development Tools
 
 group :test, :development do
