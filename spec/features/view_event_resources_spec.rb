@@ -5,9 +5,7 @@ RSpec.describe 'Viewing Event Resources', :type => :feature, :js => true do
     scenario 'I should see 3 a list of 3 resources in its details' do
       create :event_with_resources
 
-      visit '/events'
-      event_li = page.find('.events.content li')
-      event_li.click
+      visit_events_and_click_first_li
 
       expect(event_li.find_all('li')).to have(3).list_elements
     end
@@ -15,9 +13,7 @@ RSpec.describe 'Viewing Event Resources', :type => :feature, :js => true do
     scenario 'I should see each resource\'s name' do
       create :event_with_resources
 
-      visit '/events'
-      event_li = page.find('.events.content li')
-      event_li.click
+      visit_events_and_click_first_li
 
       expect(event_li).to have_content 'Some Resource', :count => 3
     end
@@ -25,9 +21,7 @@ RSpec.describe 'Viewing Event Resources', :type => :feature, :js => true do
     scenario 'I should see each resource\'s summary' do
       create :event_with_resources
        
-      visit '/events'
-      event_li = page.find('.events.content li')
-      event_li.click
+      visit_events_and_click_first_li
 
       expect(event_li).to have_content 'Resource Summary', :count => 3
     end
@@ -36,9 +30,7 @@ RSpec.describe 'Viewing Event Resources', :type => :feature, :js => true do
       scenario 'I should see each of those links' do
         create :event_with_resources
 
-        visit '/events'
-        event_li = page.find('.events.content li')
-        event_li.click
+        visit_events_and_click_first_li
 
         expect(event_li).to have_link 'Source', :href => 'Source URL', :count => 3
       end
@@ -49,9 +41,7 @@ RSpec.describe 'Viewing Event Resources', :type => :feature, :js => true do
         event = create :event_with_resources
         event.resources.last.update_attribute(:source_url, '')
 
-        visit '/events'
-        event_li = page.find('.events.content li')
-        event_li.click
+        visit_events_and_click_first_li
         
         expect(event_li).to have_link 'Source', :href => 'Source URL', :count => 2
       end

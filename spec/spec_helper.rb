@@ -14,6 +14,9 @@ Spork.prefork do
       mocks.verify_partial_doubles = true
     end
 
+    # Helper methods, etc.
+    Dir["#{Rails.root}/spec/support/**/*.rb"].each { |f| require f }
+    config.include SpecHelpers::EventViewHelpers
     config.include FactoryGirl::Syntax::Methods
   end
 end
