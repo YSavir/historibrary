@@ -2,7 +2,6 @@
   // Model Double Source
   
   var ResourceDouble = function(){
-    this.attributes = {};
   };
 
   Doubles.Models.Resource = function(opts){
@@ -10,7 +9,7 @@
     var modelDouble = new ResourceDouble();
 
     for(var prop in opts) {
-      modelDouble.attributes[prop] = opts[prop];
+      modelDouble[prop] = opts[prop];
     };
 
     return modelDouble;

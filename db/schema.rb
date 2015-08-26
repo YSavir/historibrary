@@ -33,6 +33,9 @@ ActiveRecord::Schema.define(version: 20150820195023) do
   end
 
   create_table "resources", force: true do |t|
+    t.string   "name"
+    t.string   "summary"
+    t.string   "source_url"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
