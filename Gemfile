@@ -30,6 +30,9 @@ gem 'spring',        group: :development
 # gem 'bcrypt', '~> 3.1.7'
 #
 
+# User Authentication
+gem 'devise'
+
 # Templating
 gem 'handlebars_assets'
 
