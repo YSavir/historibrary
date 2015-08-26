@@ -17,6 +17,7 @@ Spork.prefork do
     # Helper methods, etc.
     Dir["#{Rails.root}/spec/support/**/*.rb"].each { |f| require f }
     config.include SpecHelpers::EventViewHelpers
+    config.include SpecHelpers::AuthenticationHelpers
     config.include FactoryGirl::Syntax::Methods
   end
 end
