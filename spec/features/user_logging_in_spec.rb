@@ -6,9 +6,9 @@ RSpec.describe 'User Logging In' do
       user = create :user
 
       visit '/events'
-      fill_in 'email', :with => user.email
-      fill_in 'password', :with => user.password
-      click_on 'Log In'
+      fill_in 'user[email]', :with => user.email
+      fill_in 'user[password]', :with => user.password
+      click_button 'Sign in'
 
       expect(page).to have_content "Welcome, #{user.username}"
     end
