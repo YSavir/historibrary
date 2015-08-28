@@ -12,6 +12,14 @@ module SpecHelpers
     def stub_current_user(user: User.new)
       allow(controller).to receive(:current_user).and_return(user)
     end
+
+    def log_in_as(user)
+      visit '/'
+      fill_in 'user[email]', :with => user.email
+      fill_in 'user[password]', :with => user.password
+      click_button 'Sign in'
+    end
+
   end
 end
 

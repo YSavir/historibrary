@@ -5,7 +5,7 @@ RSpec.describe 'User Logging In' do
     scenario 'I should be able to log in' do
       user = create :user
 
-      visit '/events'
+      visit '/'
       fill_in 'user[email]', :with => user.email
       fill_in 'user[password]', :with => user.password
       click_button 'Sign in'
