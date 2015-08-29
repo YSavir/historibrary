@@ -9,14 +9,15 @@ RSpec.describe 'Users sign up', :type => :feature do
     end
 
     context 'A I sign up' do
-      it 'I should be signed in with new account' do
+     scenario 'I should be signed in with the new account' do
         visit '/'
         click_link "Sign Up"
-        fill_in 'user[email]', :with => "example@email.com"
-        fill_in 'user[password]', :with => "password123"
-        fill_in 'user[password_confirmatin]', :with => "password123"
-        fill_in 'user[username]', :with => "Test User"
-        click_button "Sign Up"
+        signup_form = page.find '.new_user'
+        signup_form.fill_in 'user[email]', :with => "example@email.com"
+        signup_form.fill_in 'user[password]', :with => "password123"
+        signup_form.fill_in 'user[password_confirmation]', :with => "password123"
+        signup_form.fill_in 'user[username]', :with => "Test User"
+        signup_form.click_button "Sign up"
 
         expect(page).to have_content "Welcome, Test User"
       end

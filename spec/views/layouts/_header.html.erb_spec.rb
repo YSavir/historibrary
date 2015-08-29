@@ -1,18 +1,8 @@
 require 'rails_helper'
-
-def build_header_dashboard(template: 'login_form')
-  user_struct = Struct.new(:username)
-
-  return {
-    session_templates: [template],
-    user: user_struct.new(username: "Test User") 
-  }
-end
-
 RSpec.describe 'layouts/_header', :type => :view do
   it 'should render the page title' do
     stub_user_signed_in_as_false
-    assign :dashboard, build_header_dashboard
+    assign :dashboard, Dashboard.new
 
     render
 
@@ -21,7 +11,7 @@ RSpec.describe 'layouts/_header', :type => :view do
 
   it 'should render the subtitle' do
     stub_user_signed_in_as_false
-    assign :dashboard, build_header_dashboard
+    assign :dashboard, Dashboard.new
 
     render
 
@@ -31,7 +21,7 @@ RSpec.describe 'layouts/_header', :type => :view do
   context 'and no user is logged in' do
     it 'should render the login form' do
       stub_user_signed_in_as_false
-      assign :dashboard, build_header_dashboard
+      assign :dashboard, Dashboard.new
 
       render
 
@@ -40,7 +30,7 @@ RSpec.describe 'layouts/_header', :type => :view do
 
     it 'should render the sign up link' do
       stub_user_signed_in_as_false
-      assign :dashboard, build_header_dashboard(template: 'signup')
+      assign :dashboard, Dashboard.new
 
       render
 
@@ -51,7 +41,7 @@ RSpec.describe 'layouts/_header', :type => :view do
   context 'and a user is logged in' do
     it 'should not render the login form' do
       stub_user_signed_in as: true
-      assign :dashboard, build_header_dashboard(template: 'welcome_user')
+      assign :dashboard, Dashboard.new(create(:user))
 
       render
 
@@ -60,7 +50,7 @@ RSpec.describe 'layouts/_header', :type => :view do
 
     it 'should render the welcome_user template' do
       stub_user_signed_in as: true
-      assign :dashboard, build_header_dashboard(template: 'welcome_user')
+      assign :dashboard, Dashboard.new(create(:user))
      
       render
 
