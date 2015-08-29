@@ -4,7 +4,7 @@ def build_header_dashboard(template: 'login_form')
   user_struct = Struct.new(:username)
 
   return {
-    session_template: template,
+    session_templates: [template],
     user: user_struct.new(username: "Test User") 
   }
 end
@@ -36,6 +36,15 @@ RSpec.describe 'layouts/_header', :type => :view do
       render
 
       expect(view).to render_template(:partial => '_login_form')
+    end
+
+    it 'should render the sign up link' do
+      stub_user_signed_in_as_false
+      assign :dashboard, build_header_dashboard(template: 'signup')
+
+      render
+
+      expect(view).to render_template(:partial => '_signup')
     end
   end
 

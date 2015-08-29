@@ -1,13 +1,15 @@
 class EventsController < ApplicationController
 
   def index
-    session_template = user_signed_in? ? "welcome_user" : "login_form"
-    user = current_user || User.new
+    @dashboard = {}
 
-    @dashboard = {
-      user: user,
-      session_template: session_template
-    }
+    if user_signed_in?
+      @dashboard[:user] = current_user
+      @dashboard[:session_templates] = ['welcome_user']
+    else
+      @dashboard[:user] = User.new
+      @dashboard[:session_templates] = ['login_form', 'signup']
+    end
   end
 
 end
