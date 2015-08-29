@@ -10,25 +10,24 @@ RSpec.describe EventsController, type: :controller do
       expect(response).to render_template :index
     end
 
-    describe 'With no user is signed in' do
-      it 'should assign user as an empty user object' do
-        stub_current_user
+    it 'should assign the dashboard' do
+      stub_current_user
+      
+      get :index
 
-        get :index
-
-        expect(assigns(:dashboard)[:user].attributes).to eq(User.new.attributes)
-      end
+      expect(assigns(:dashboard)).to be_a Dashboard
     end
 
-    describe "With a signed-in user" do
-      it "should assign user to that user instance" do
+    describe 'With a logged in user' do
+      it 'should assign the current user to the dashboard' do
         user = create :user
         stub_current_user user: user
 
         get :index
 
-        expect(assigns(:dashboard)[:user]).to be(user)
+        expect(assigns(:dashboard).user).to be user
       end
     end
+
   end
 end
