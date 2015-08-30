@@ -1,5 +1,7 @@
 App.CollectionViews.Event = Backbone.View.extend({
 
+  views: [],
+
   initialize: function(){
     this.$el = $('.events.content');
   },
@@ -15,14 +17,26 @@ App.CollectionViews.Event = Backbone.View.extend({
   },
 
   renderSubViews: function(){
-    var $list = this.$el.find('ul');
+    var $list = this.$el.find('ul'),
+        collView = this;
+
     $list.empty();
+    this.views = [];
 
     this.collection.models.forEach(function(model){
       var view = new App.Views.Event({model: model});
+      this.views.push(view);
       view.render();
+      view.$el.on('click', function(){ collView.collapseInactiveViews(view) });
 
       $list.append(view.$el);
+    }.bind(this));
+  },
+
+  collapseInactiveViews: function(activeView){
+    var viewsToCollapse = this.views.forEach(function(view){
+      if ( view === activeView) return false;
+      view.render({as: 'summary'});
     });
   }
 });
