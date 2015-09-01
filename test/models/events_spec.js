@@ -47,4 +47,15 @@ describe('models/event', function(){
       });
     });
   });
+
+  describe('With an end_date that precedes the start_date', function(){
+    it('should not be valid', function(){
+      var event = new App.Models.Event({
+        start_date: '1/2/2015',
+        end_date: '1/1/2015'
+      }); 
+
+      expect(event.isValid()).to.be.false
+    });
+  });
 });

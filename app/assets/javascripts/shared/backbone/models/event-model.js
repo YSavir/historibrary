@@ -14,5 +14,14 @@ App.Models.Event = Backbone.Model.extend({
   _joinedDates: function(){
     var attrs = this.attributes;
     return attrs.start_date + ' - ' + attrs.end_date;
+  },
+
+  validate: function(attrs){
+    var parsedStartDate = Date.parse(attrs.start_date),
+        parsedEndDate = Date.parse(attrs.end_date);
+
+    if (parsedEndDate < parsedStartDate) {
+      return "Event end date cannot be before start date";
+    }
   }
 });
