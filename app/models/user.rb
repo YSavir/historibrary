@@ -8,4 +8,9 @@ class User < ActiveRecord::Base
   validates :username,
     :presence => true,
     :length => { :maximum => 16, :minimum => 3 }
+
+  # Associations
+  has_many :created_resources,
+              class_name: 'Resource',
+              foreign_key: 'creator_id'
 end

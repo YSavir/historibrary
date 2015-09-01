@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20150826180603) do
     t.string   "name"
     t.string   "summary"
     t.string   "source_url"
+    t.integer  "creator_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
