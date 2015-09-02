@@ -4,6 +4,24 @@ describe('views/add-resource', function(){
     sandbox.restore();
   });
 
+  describe('.initialize', function(){
+    it('should render the view', function(){
+      var renderStub = sandbox.stub(App.Views.AddResource.prototype, 'render');
+      
+      new App.Views.AddResource(),
+
+      expect(renderStub).to.have.been.called;
+    });
+
+    it('should append the $el', function(){
+      var appendStub = sandbox.stub(App.Views.AddResource.prototype, 'appendToBody');
+
+      new App.Views.AddResource(),
+
+      expect(appendStub).to.have.been.called;
+    });
+  });
+  
   describe('el', function(){
     it('should be a div', function(){
       var view = new App.Views.AddResource(),
@@ -55,6 +73,16 @@ describe('views/add-resource', function(){
 
       view.render();
       $('input[name="resource[name]"]').val('foo');
+    });
+  });
+
+  describe('appendToBody', function(){
+    it('should prepend the $el to the page', function(){
+      var view = new App.Views.AddResource({});
+
+      view.appendToBody();
+
+      expect($('div.add-resource-modul').last()[0]).to.equal(view.$el[0]);
     });
   });
 });

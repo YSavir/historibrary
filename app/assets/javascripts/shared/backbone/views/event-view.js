@@ -45,7 +45,7 @@ App.Views.Event = Backbone.View.extend({
   },
 
   showAddResourceScreen: function(){
-    new App.Views.ShowResource({model: this.model});
+    new App.Views.AddResource({model: this.model});
   }
   
 });

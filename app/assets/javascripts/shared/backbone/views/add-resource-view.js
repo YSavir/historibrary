@@ -1,6 +1,11 @@
 App.Views.AddResource = Backbone.View.extend({
 
   className: 'modul add-resource-modul',
+
+  initialize: function(){
+    this.render();
+    this.appendToBody();
+  },
   
   render: function(){
     this.$el.html(this._template());
@@ -13,5 +18,9 @@ App.Views.AddResource = Backbone.View.extend({
 
   _template: function(){
     return HandlebarsTemplates['add-resource']();
-  } 
+  },
+
+  appendToBody: function(){
+    $('body').append(this.$el);
+  }
 });
