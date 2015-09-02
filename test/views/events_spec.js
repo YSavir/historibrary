@@ -4,12 +4,22 @@ describe('views/events', function(){
     sandbox.restore();
   });
 
-  describe('events', function(){
+  describe('summaryEvents', function(){
     describe('click', function(){
       it('should be set to renderDetails', function(){
         var view = new App.Views.Event();
 
-        expect(view.events.click).to.equal('renderDetails');
+        expect(view.summaryEvents.click).to.equal('renderDetails');
+      });
+    });
+  });
+
+  describe('detailEvents', function(){
+    describe('click button.add-resource', function(){
+      it('should be set to showAddResourceScreen', function(){
+        var view = new App.Views.Event({});
+
+        expect(view.detailEvents['click button.add-resource']).to.equal('showAddResourceScreen');
       });
     });
   });

@@ -7,6 +7,7 @@ describe('templates/events', function(){
   describe('list', function(){
     it('should render the HTML for an events list', function(){
       var targetHTML = "<h2>Events</h2>\n"
+                     + "<hr class=\"bar\">\n"
                      + "<ul></ul>\n";
 
       expect(HandlebarsTemplates['events/list']()).to.equal(targetHTML);
@@ -29,7 +30,8 @@ describe('templates/events', function(){
         var event = Doubles.Models.Event(),
             targetHTML = "<h3>Sample Event</h3>\n"
                        + "<p>1/1/1640</p>\n"
-                       + "<p>This event has happened</p>\n";
+                       + "<p>This event has happened</p>\n"
+                       + "<button class=\"add-resource\">Add a Resource</button>\n";
 
         expect(HandlebarsTemplates['events/details'](event)).to.equal(targetHTML);
       });
@@ -47,8 +49,9 @@ describe('templates/events', function(){
                        + "<li>Some Resource</li>\n"
                        + "<li>Some Resource</li>\n"
                        + "<li>Some Resource</li>\n"
-                       + "</ul>\n";
-        resourceSummaryStub.returns('<li>Some Resource</li>\n');
+                       + "</ul>\n"
+                       + "<button class=\"add-resource\">Add a Resource</button>\n";
+        resourceSummaryStub.returns('Some Resource');
 
         expect(HandlebarsTemplates['events/details'](event)).to.equal(targetHTML);
       });

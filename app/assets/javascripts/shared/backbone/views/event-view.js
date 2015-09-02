@@ -2,6 +2,10 @@ App.Views.Event = Backbone.View.extend({
 
   tagName: 'li',
 
+  initialize: function(){
+    this.delegateEvents(this.summaryEvents);
+  },
+
   render: function(opts){
     opts = opts || {};
     var targetTemplate = this.extractTemplateFrom(opts.as),
@@ -18,8 +22,12 @@ App.Views.Event = Backbone.View.extend({
     return HandlebarsTemplates['events/' + template](this.model);
   },
 
-  events: {
+  summaryEvents: {
     'click': 'renderDetails'
+  },
+
+  detailEvents: {
+    'click button.add-resource': 'showAddResourceScreen'
   },
 
   renderDetails: function(){
