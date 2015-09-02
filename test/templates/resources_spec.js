@@ -42,6 +42,7 @@ describe('templates/resources', function(){
                      + "<input type=\"text\" name=\"resource[summary]\">\n"
                      + "<label for=\"new-resource-source-url\">Source URL:</label>\n"
                      + "<input type=\"text\" name=\"resource[source_url]\">\n"
+                     + "<input type=\"submit\" value=\"Submit Resource\">\n"
                      + "</form>\n";
 
       expect(HandlebarsTemplates['resources/new']()).to.equal(targetHTML);

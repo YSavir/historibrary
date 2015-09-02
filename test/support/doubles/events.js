@@ -9,7 +9,8 @@
       summary: 'This event has happened'
     };
 
-    this.dateRange = function(){ return '1/1/1640'; } 
+    this.dateRange = function(){ return '1/1/1640'; };
+    this.createResource = function(){};
   };
 
   EventDouble.prototype.withResources = function(totalResources){

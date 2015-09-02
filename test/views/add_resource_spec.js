@@ -2,6 +2,7 @@ describe('views/add-resource', function(){
 
   afterEach(function(){
     sandbox.restore();
+    $('.add-resource-modul').remove();
   });
 
   describe('.initialize', function(){
@@ -69,10 +70,38 @@ describe('views/add-resource', function(){
   describe('submitResource', function(){
     it('should create resource object with form data', function(){
       var model = Doubles.Models.Event(),
-          view = new App.Views.AddResource({model: model});
+          view = new App.Views.AddResource({model: model}),
+          createResourceStub = sandbox.stub(model, 'createResource');
 
       view.render();
-      $('input[name="resource[name]"]').val('foo');
+      $('input[name="resource[name]"]').val('namefoo');
+      $('input[name="resource[summary]"]').val('summaryfoo');
+      $('input[name="resource[source_url]"]').val('sourcefoo');
+      view.submitResource();
+      
+      expect(createResourceStub).to.have.been.calledWith({
+        name: 'namefoo',
+        summary: 'summaryfoo',
+        source_url: 'sourcefoo'
+      });
+    });
+
+    it('should reset the form', function(){
+      var model = Doubles.Models.Event(),
+          view = new App.Views.AddResource({model: model}),
+          createResourceStub = sandbox.stub(model, 'createResource');
+
+      view.render();
+      var form = view.$el.find('form')[0];
+      $('input[name="resource[name]"]').val('namefoo');
+      $('input[name="resource[summary]"]').val('summaryfoo');
+      $('input[name="resource[source_url]"]').val('sourcefoo');
+      view.submitResource();
+      
+      expect(form['resource[name]'].value).to.be.empty;
+      expect(form['resource[summary]'].value).to.be.empty;
+      expect(form['resource[source_url]'].value).to.be.empty;
+      expect(view.$el.find('form input[type=submit]').val()).to.equal('Submit Resource');
     });
   });
 
@@ -82,7 +111,7 @@ describe('views/add-resource', function(){
 
       view.appendToBody();
 
-      expect($('div.add-resource-modul').last()[0]).to.equal(view.$el[0]);
+      expect($('div.add-resource-modul')[0]).to.equal(view.$el[0]);
     });
   });
 });

@@ -22,5 +22,19 @@ App.Views.AddResource = Backbone.View.extend({
 
   appendToBody: function(){
     $('body').append(this.$el);
+  },
+
+  submitResource: function(){
+    var form = this.$el.find('form')[0],
+        values = {
+          name: form['resource[name]'].value,
+          summary: form['resource[summary]'].value,
+          source_url: form['resource[source_url]'].value
+        };
+
+    this.model.createResource(values);
+    this.$el.find('form input[type=text]').each(function(idx, input){
+      $(input).val('');
+    });
   }
 });
