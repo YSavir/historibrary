@@ -83,4 +83,11 @@ describe('views/events', function(){
       expect(renderedAsDetails).to.be.true;
     });
   });
+
+  describe('showAddResourceScreen', function(){
+    it('should instantiate an AddResource view', function(){
+      // pending
+      // Need to find efficient way to test constructors
+    });
+  });
 });

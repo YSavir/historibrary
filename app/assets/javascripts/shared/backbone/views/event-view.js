@@ -2,6 +2,8 @@ App.Views.Event = Backbone.View.extend({
 
   tagName: 'li',
 
+  validTemplateOptions: ['summary', 'details'],
+
   initialize: function(){
     this.delegateEvents(this.summaryEvents);
   },
@@ -32,6 +34,7 @@ App.Views.Event = Backbone.View.extend({
 
   renderDetails: function(){
     this.render({as: 'details'});
+    this.delegateEvents(this.detailEvents);
   },
 
   extractTemplateFrom: function(asOption){
@@ -41,6 +44,8 @@ App.Views.Event = Backbone.View.extend({
     return null;
   },
 
-  validTemplateOptions: ['summary', 'details']
+  showAddResourceScreen: function(){
+    new App.Views.ShowResource({model: this.model});
+  }
   
 });
