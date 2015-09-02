@@ -113,5 +113,15 @@ describe('views/add-resource', function(){
 
       expect($('div.add-resource-modul')[0]).to.equal(view.$el[0]);
     });
+
+    it('should clear any existing moduls', function(){
+      var view = new App.Views.AddResource(),
+          otherView = new App.Views.AddResource();
+
+      view.appendToBody();
+      otherView.appendToBody();
+
+      expect($('.modul')).to.have.lengthOf(1);
+    });
   });
 });

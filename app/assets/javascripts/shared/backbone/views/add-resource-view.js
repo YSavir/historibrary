@@ -21,6 +21,9 @@ App.Views.AddResource = Backbone.View.extend({
   },
 
   appendToBody: function(){
+    $('.modul').each(function(idx, el){
+      $(el).remove();
+    });
     $('body').append(this.$el);
   },
 
