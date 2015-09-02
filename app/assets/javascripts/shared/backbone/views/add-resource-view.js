@@ -7,6 +7,10 @@ App.Views.AddResource = Backbone.View.extend({
     return this;
   },
 
+  events: {
+    'click .submit-resource': 'submitResource'
+  },
+
   _template: function(){
     return HandlebarsTemplates['add-resource']();
   } 

@@ -37,4 +37,24 @@ describe('views/add-resource', function(){
       expect(view.$el.html()).to.equal('foo');
     });
   });
+
+  describe('events', function(){
+    describe('click .submit-resource', function(){
+      it('should be set to submitResource', function(){
+        var view = new App.Views.AddResource();
+
+        expect(view.events['click .submit-resource']).to.equal('submitResource');
+      });
+    });
+  });
+
+  describe('submitResource', function(){
+    it('should create resource object with form data', function(){
+      var model = Doubles.Models.Event(),
+          view = new App.Views.AddResource({model: model});
+
+      view.render();
+      $('input[name="resource[name]"]').val('foo');
+    });
+  });
 });
