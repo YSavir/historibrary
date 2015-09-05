@@ -23,7 +23,8 @@ describe('templates/resources', function(){
       it('should render a summary of the resource without a source anchor tag', function(){
         var resource = Doubles.Models.Resource({
               name: 'A Resource',
-              summary: 'Resource Summary'
+              summary: 'Resource Summary',
+              source_url: ''
             }),
             targetHTML = "<h5>A Resource</h5>\n"
                        + "<p>Resource Summary</p>\n";

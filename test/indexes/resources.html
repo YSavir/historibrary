@@ -19,14 +19,19 @@
   
   <!-- Test Env -->
   <script src="../support/doubles/resources.js"></script>
+  <script src="../support/doubles/events.js"></script>
   <script src="../support/template-tools.js"></script>
   <script>mocha.setup('bdd')</script>
 
   <!-- App Objects -->
   <script src="./javascripts/templates.js"></script>
   <script src="../../app/assets/javascripts/shared/setup.js"></script>
+  <script src="../../app/assets/javascripts/shared/backbone/models/resource-model.js"></script>
+  <script src="../../app/assets/javascripts/shared/backbone/collections/resource-collection.js"></script>
 
   <!-- Specs  -->
+  <script src="../collections/resource_spec.js"></script>
+  <script src="../models/resource_spec.js"></script>
   <script src="../templates/resources_spec.js"></script>
 
   <script>

@@ -1,6 +1,6 @@
 describe('models/event', function(){
-  describe('name', function(){
-    it('should return the name of the event', function(){
+  describe('.get("attribute")', function(){
+    it('should return the attribute\'s value', function(){
       var event = new App.Models.Event({name: 'Sample Event'});
 
       var eventName = event.get('name');
