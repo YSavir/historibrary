@@ -11,6 +11,10 @@
 
     this.dateRange = function(){ return '1/1/1640'; };
     this.createResource = function(){};
+
+    this.get = function(attr){
+      return this.attributes[attr];
+    }
   };
 
   EventDouble.prototype.withResources = function(totalResources){

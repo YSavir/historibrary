@@ -1,26 +1,58 @@
 App.Collections.Resource = Backbone.Collection.extend({
 
   model: App.Models.Resource,
+  _eventResources: {},
 
   fetchForEvent: function(event){
     $.ajax({
       context: this,
       method: "GET",
-      datatype: "JSON",
-      url: "/events/" + event.attributes.id + "/resources",
-      success: this.addResources,
+      contentType: "JSON",
+      url: "/api/v1/events/" + event.get('id') + "/resources",
+      success: function(){
+        return function(responseData){
+          this.addResourcesFromResponse(responseData, event);
+        }
+      }(),
       error: this._logError
     });
   },
 
-  addResources: function(data){
-    data.forEach(function(resource){
-      this.add(resource);
+  addResourcesFromResponse: function(resources, event){
+    resources.forEach(function(resource){
+      this._addResource(event, resource);
     }.bind(this));
 
+    event.resources = this.resourcesForEvent(event);
+  },
+
+  resourcesForEvent: function(event){
+    return this._eventResources[event.get('id')];
   },
 
   _logError: function(err){
     console.log(err);
+  },
+
+  _addResource: function(event, resource){
+    this.add(resource);
+    this._addResourceForEvent(event, resource);
+  },
+
+  _addResourceForEvent: function(event, resource){
+    // add resource to eventResources for that event
+    // set that event's resources to an array if it isn't already created
+    // TODO: Create a JS object to act as a join table lookup to replace this
+    // method of tracking relations
+    var eventId = event.get('id'),
+        eventResources = this._eventResources[eventId];
+
+    if (!eventResources) {
+      eventResources = this._eventResources[eventId] = [];
+    }
+    
+    if (eventResources.indexOf(resource) < 0 ){
+      eventResources.push(resource);
+    }
   }
 });
