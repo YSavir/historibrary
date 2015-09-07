@@ -16,20 +16,22 @@ App.CollectionViews.Event = Backbone.View.extend({
     return HandlebarsTemplates['events/list']();
   },
 
-  renderSubViews: function(){
-    var $list = this.$el.find('ul'),
-        collView = this;
+  renderSubView: function(view){
+    this.views.push(view);
+    view.render();
+    this.$el.find('ul').append(view.$el);
 
-    $list.empty();
+    this.listenTo(view, 'renderDetails', this.collapseInactiveViews);
+    this.listenTo(view, 'addResource', this.newResourceForEvent);
+  },
+
+  renderSubViews: function(){
+    this.$el.find('ul').empty();
     this.views = [];
 
     this.collection.models.forEach(function(model){
       var view = new App.Views.Event({model: model});
-      this.views.push(view);
-      view.render();
-      view.$el.on('click', function(){ collView.collapseInactiveViews(view) });
-
-      $list.append(view.$el);
+      this.renderSubView(view);
     }.bind(this));
   },
 
@@ -38,5 +40,7 @@ App.CollectionViews.Event = Backbone.View.extend({
       if ( view === activeView) return false;
       view.render({as: 'summary'});
     });
-  }
+  },
+
+  newResourceForEvent: function(){}
 });

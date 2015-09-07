@@ -1,6 +1,7 @@
 describe('collection-views/events', function(){
   afterEach(function(){
     sandbox.restore();
+    $('.events.content').empty();
   });
 
   describe('.$el', function(){
@@ -45,6 +46,60 @@ describe('collection-views/events', function(){
     });
   });
 
+  describe('renderSubView', function(){
+    it('should add the subView to .views', function(){
+      var collView = new App.CollectionViews.Event(),
+          view = new Doubles.Views.Event();
+
+      collView.renderSubView(view);
+
+      expect(collView.views).to.include(view);
+    });
+
+    it('should render the view', function(){
+      var collView = new App.CollectionViews.Event(),
+          view = Doubles.Views.Event(),
+          subViewRenderSpy = sandbox.spy(view, 'render');
+      
+      collView.renderSubView(view);
+
+      expect(subViewRenderSpy).to.have.been.called;
+    });
+
+    it('should listen to the view\'s renderDetails event', function(){
+      var collView = new App.CollectionViews.Event(),
+          view = Doubles.Views.Event(),
+          listenerSpy = sandbox.spy(collView, 'collapseInactiveViews');
+
+      collView.renderSubView(view);
+      view.trigger('renderDetails', view);
+
+      expect(listenerSpy).to.have.been.calledWith(view);
+    });
+
+    it ('should listen to the view\'s addResource event', function(){
+      var collView = new App.CollectionViews.Event(),
+          view = Doubles.Views.Event(),
+          listenerSpy = sandbox.spy(collView, 'newResourceForEvent');
+      
+      collView.renderSubView(view);
+      view.trigger('addResource', view);
+
+      expect(listenerSpy).to.have.been.calledWith(view);
+    });
+
+    it('should append the sub view\s $el to its ul', function(){
+      var collView = new App.CollectionViews.Event(),
+          view = Doubles.Views.Event();
+
+      
+      collView.$el.append('<ul></ul>');
+      collView.renderSubView(view);
+
+      expect(collView.$el.find('ul').children().last()[0]).to.eql(view.$el[0]);
+    });
+  });
+
   describe('.renderSubViews', function(){
 
     it('should clear the ul before adding elements', function(){
@@ -58,22 +113,14 @@ describe('collection-views/events', function(){
       expect(ulElements).to.have.lengthOf(0);
     });
 
-    describe('with a collection with 3 models', function(){
-      it('should have 3 elements in its ul', function(){
-        var collection = Doubles.Collections.Event({models: 3}),
-            collView = new App.CollectionViews.Event({collection: collection}),
-            templateStub = Stubs.Templates.EventsList();
-        templateStub.returns(TemplateStrings.eventList);
+    it('should render a sub view for each of the collection\'s models', function(){
+      var coll = Doubles.Collections.Event({models: 3}),
+          collView = new App.CollectionViews.Event({collection: coll}),
+          renderSubViewSpy = sandbox.spy(collView, 'renderSubView');
 
-        // Set Up Views Templating
-        var viewTemplateStub = sandbox.stub(App.Views.Event.prototype, '_template');
-        viewTemplateStub.returns(TemplateStrings.eventSummary);
-        
-        collView.renderSubViews();
-        var ulElements = collView.$el.find('ul').children();
+      collView.renderSubViews();
 
-        expect(ulElements).to.have.lengthOf(3);
-      });
-    }); 
+      expect(renderSubViewSpy).to.have.been.calledThrice;
+    });
   });
 });

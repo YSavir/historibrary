@@ -56,5 +56,16 @@
 
     return collectionDouble;
   };
+
+  // Event View Doubles
+
+  var EventViewDouble = Backbone.View.extend({});
+
+  Doubles.Views.Event = function(){
+    var model = new EventDouble();
+
+    return new EventViewDouble({model: model});
+  };
+  
 })()
 
