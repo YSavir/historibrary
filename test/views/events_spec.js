@@ -16,10 +16,10 @@ describe('views/events', function(){
 
   describe('detailEvents', function(){
     describe('click button.add-resource', function(){
-      it('should be set to showAddResourceScreen', function(){
+      it('should be set to triggerAddResource', function(){
         var view = new App.Views.Event({});
 
-        expect(view.detailEvents['click button.add-resource']).to.equal('showAddResourceScreen');
+        expect(view.detailEvents['click button.add-resource']).to.equal('triggerAddResource');
       });
     });
   });
@@ -84,10 +84,15 @@ describe('views/events', function(){
     });
   });
 
-  describe('showAddResourceScreen', function(){
-    it('should instantiate an AddResource view', function(){
-      // pending
-      // Need to find efficient way to test constructors
+  describe('.triggerAddResource', function(){
+    it('should trigger \'addResource\' on itself and pass itself', function(){
+      var view = new App.Views.Event(),
+          spy = sandbox.spy();
+
+      view.on('addResource', spy);
+      view.triggerAddResource();
+
+      expect(spy).to.have.been.calledWith(view);
     });
   });
 });

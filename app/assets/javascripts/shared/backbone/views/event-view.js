@@ -29,7 +29,7 @@ App.Views.Event = Backbone.View.extend({
   },
 
   detailEvents: {
-    'click button.add-resource': 'showAddResourceScreen'
+    'click button.add-resource': 'triggerAddResource'
   },
 
   renderDetails: function(){
@@ -44,8 +44,10 @@ App.Views.Event = Backbone.View.extend({
     return null;
   },
 
-  showAddResourceScreen: function(){
-    new App.Views.AddResource({model: this.model});
+  // Listened to by:
+  // * App/CollectionViews/Event.renderSubView
+  triggerAddResource: function(){
+    this.trigger('addResource', this);
   }
   
 });

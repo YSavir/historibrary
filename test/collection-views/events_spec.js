@@ -80,12 +80,12 @@ describe('collection-views/events', function(){
     it ('should listen to the view\'s addResource event', function(){
       var collView = new App.CollectionViews.Event(),
           view = Doubles.Views.Event(),
-          listenerSpy = sandbox.spy(collView, 'newResourceForEvent');
+          listenerStub = sandbox.stub(collView, 'newResourceForEvent');
       
       collView.renderSubView(view);
       view.trigger('addResource', view);
 
-      expect(listenerSpy).to.have.been.calledWith(view);
+      expect(listenerStub).to.have.been.calledWith(view);
     });
 
     it('should append the sub view\s $el to its ul', function(){
@@ -121,6 +121,21 @@ describe('collection-views/events', function(){
       collView.renderSubViews();
 
       expect(renderSubViewSpy).to.have.been.calledThrice;
+    });
+  });
+
+  describe('.newResourceForEvent', function(){
+    it('should instantiate a new addResource view for the given event', function(){
+      App.Views['AddResource'] = function(){};
+      var collView = new App.CollectionViews.Event(),
+          view = Doubles.Views.Event(),
+          newArgs = {model: view.model},
+          addResourceSpy = sandbox.spy(App.Views, 'AddResource');
+
+      collView.newResourceForEvent(view);
+
+      expect(addResourceSpy).to.have.been.called;
+      expect(addResourceSpy.args[0][0]).to.have.property('model', view.model);
     });
   });
 });
