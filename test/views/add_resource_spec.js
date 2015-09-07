@@ -1,5 +1,19 @@
 describe('views/add-resource', function(){
 
+  var renderFillAndSubmitNewResourceForm = function(view){
+    view.render();
+    $('input[name="resource[name]"]').val('namefoo');
+    $('input[name="resource[summary]"]').val('summaryfoo');
+    $('input[name="resource[source_url]"]').val('sourcefoo');
+    view.submitResource(eventDouble());
+  };
+
+  var eventDouble = function(){
+    return {
+      preventDefault: function(){}
+    };
+  };
+
   afterEach(function(){
     sandbox.restore();
     $('.add-resource-modul').remove();
@@ -58,11 +72,11 @@ describe('views/add-resource', function(){
   });
 
   describe('events', function(){
-    describe('click .submit-resource', function(){
+    describe('submit form', function(){
       it('should be set to submitResource', function(){
         var view = new App.Views.AddResource();
 
-        expect(view.events['click .submit-resource']).to.equal('submitResource');
+        expect(view.events['submit form']).to.equal('submitResource');
       });
     });
   });
@@ -73,11 +87,7 @@ describe('views/add-resource', function(){
           view = new App.Views.AddResource({model: model}),
           createResourceStub = sandbox.stub(model, 'createResource');
 
-      view.render();
-      $('input[name="resource[name]"]').val('namefoo');
-      $('input[name="resource[summary]"]').val('summaryfoo');
-      $('input[name="resource[source_url]"]').val('sourcefoo');
-      view.submitResource();
+      renderFillAndSubmitNewResourceForm(view);
       
       expect(createResourceStub).to.have.been.calledWith({
         name: 'namefoo',
@@ -91,21 +101,40 @@ describe('views/add-resource', function(){
           view = new App.Views.AddResource({model: model}),
           createResourceStub = sandbox.stub(model, 'createResource');
 
-      view.render();
+      renderFillAndSubmitNewResourceForm(view);
       var form = view.$el.find('form')[0];
-      $('input[name="resource[name]"]').val('namefoo');
-      $('input[name="resource[summary]"]').val('summaryfoo');
-      $('input[name="resource[source_url]"]').val('sourcefoo');
-      view.submitResource();
       
       expect(form['resource[name]'].value).to.be.empty;
       expect(form['resource[summary]'].value).to.be.empty;
       expect(form['resource[source_url]'].value).to.be.empty;
       expect(view.$el.find('form input[type=submit]').val()).to.equal('Submit Resource');
     });
+
+    it('should prevent default', function(){
+      var model = Doubles.Models.Event(),
+          view = new App.Views.AddResource({model: model}),
+          preventSpy = sandbox.stub(view, 'preventEvent');
+
+
+      renderFillAndSubmitNewResourceForm(view);
+
+      expect(preventSpy).to.have.been.called;
+    });
   });
 
-  describe('appendToBody', function(){
+  describe('.preventEvent', function(){
+    it('should prevent the given event', function(){
+      var view = new App.Views.AddResource(), 
+          e = {preventDefault: function(){}},
+          preventSpy = sandbox.spy(e, 'preventDefault');
+
+      view.preventEvent(e);
+
+      expect(preventSpy).to.have.been.called;
+    });
+  });
+
+  describe('.appendToBody', function(){
     it('should prepend the $el to the page', function(){
       var view = new App.Views.AddResource({});
 

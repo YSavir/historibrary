@@ -13,7 +13,7 @@ App.Views.AddResource = Backbone.View.extend({
   },
 
   events: {
-    'click .submit-resource': 'submitResource'
+    'submit form': 'submitResource'
   },
 
   _template: function(){
@@ -27,7 +27,7 @@ App.Views.AddResource = Backbone.View.extend({
     $('body').append(this.$el);
   },
 
-  submitResource: function(){
+  submitResource: function(e){
     var form = this.$el.find('form')[0],
         values = {
           name: form['resource[name]'].value,
@@ -35,9 +35,14 @@ App.Views.AddResource = Backbone.View.extend({
           source_url: form['resource[source_url]'].value
         };
 
+    this.preventEvent(e);
     this.model.createResource(values);
     this.$el.find('form input[type=text]').each(function(idx, input){
       $(input).val('');
     });
+  },
+
+  preventEvent: function(e){
+    e.preventDefault();
   }
 });
