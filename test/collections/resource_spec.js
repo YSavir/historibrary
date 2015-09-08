@@ -128,7 +128,7 @@ describe('collections/resource', function(){
 
           coll.addResourcesFromResponse(resources, event);
 
-          expect(event.resources).to.have.lengthOf(3);
+          expect(event.attributes.resources).to.have.lengthOf(3);
         });
       });
     });

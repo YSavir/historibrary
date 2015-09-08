@@ -23,7 +23,7 @@ App.Collections.Resource = Backbone.Collection.extend({
       this._addResource(event, resource);
     }.bind(this));
 
-    event.resources = this.resourcesForEvent(event);
+    event.attributes.resources = this.resourcesForEvent(event);
   },
 
   resourcesForEvent: function(event){
