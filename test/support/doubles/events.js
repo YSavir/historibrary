@@ -1,23 +1,20 @@
 (function(){
 
   // Event Model Doubles
-  var EventDouble = function(){
-    this.attributes = {
+
+  var EventDouble = Backbone.Model.extend({
+
+    dateRange: function(){ return '1/1/1640'; },
+
+    defaults: {
       name: 'Sample Event',
       starting_date: '1/1/1640',
       ending_date: '1/1/1640',
       summary: 'This event has happened'
-    };
-
-    this.dateRange = function(){ return '1/1/1640'; };
-    this.createResource = function(){};
-
-    this.get = function(attr){
-      return this.attributes[attr];
     }
-  };
+  });
 
-  EventDouble.prototype.withResources = function(totalResources){
+   EventDouble.prototype.withResources = function(totalResources){
     this.attributes.resources = [];
 
     for (var i = 0; i < totalResources; i++){

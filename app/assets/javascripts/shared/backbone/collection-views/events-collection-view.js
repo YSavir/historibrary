@@ -4,6 +4,7 @@ App.CollectionViews.Event = Backbone.View.extend({
 
   initialize: function(){
     this.$el = $('.events.content');
+    this.resourceCollection = new App.Collections.Resource;
   },
 
   render: function(){
@@ -43,6 +44,6 @@ App.CollectionViews.Event = Backbone.View.extend({
   },
 
   newResourceForEvent: function(subView){
-    new App.Views.AddResource({model: subView.model});
+    var addResourceView = new App.Views.AddResource({model: subView.model});
   }
 });

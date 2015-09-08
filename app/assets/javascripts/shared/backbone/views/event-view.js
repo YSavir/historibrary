@@ -6,6 +6,10 @@ App.Views.Event = Backbone.View.extend({
 
   initialize: function(){
     this.delegateEvents(this.summaryEvents);
+    if (this.model) {
+      var callback = function() { this.render({as: 'details'}); }
+      this.listenTo(this.model, 'change', callback); 
+    }
   },
 
   render: function(opts){

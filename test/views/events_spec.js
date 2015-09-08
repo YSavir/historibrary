@@ -4,6 +4,19 @@ describe('views/events', function(){
     sandbox.restore();
   });
 
+  describe('initialize', function(){
+    it('should listen to changes on its model and render on trigger', function(){
+      var model = Doubles.Models.Event(),
+          view = new App.Views.Event({model: model}),
+          renderStub = sandbox.stub(view, 'render');
+
+      model.trigger('change');
+
+      expect(renderStub).to.have.been.called;
+      expect(renderStub.args[0][0]).to.have.property('as', 'details');
+    });
+  });
+
   describe('summaryEvents', function(){
     describe('click', function(){
       it('should be set to renderDetails', function(){
@@ -38,7 +51,8 @@ describe('views/events', function(){
   describe('.render', function(){
 
     it('should return itself', function(){
-      var event = new App.Views.Event({model: {}});
+      var model = Doubles.Models.Event(),
+          event = new App.Views.Event({model: model});
 
       expect(event.render()).to.eql(event);
     });
