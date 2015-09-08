@@ -1,5 +1,8 @@
 describe('collection-views/events', function(){
-  App.Collections.Resource = function(){};
+  App.Views['AddResource'] = Backbone.View.extend({});
+  App.Collections.Resource = Backbone.Collection.extend({
+    listenForNewResource: function(){}
+  });
 
   afterEach(function(){
     sandbox.restore();
@@ -12,7 +15,7 @@ describe('collection-views/events', function(){
 
       var expectedElement = $('.events.content');
 
-      //compare nodes since jquery notes are inherently different
+      //compare nodes since jquery nodes are inherently different
       expect(collView.$el[0]).to.equal(expectedElement[0]);
     });
   });
@@ -136,7 +139,6 @@ describe('collection-views/events', function(){
 
   describe('.newResourceForEvent', function(){
     it('should instantiate a new addResource view for the given event', function(){
-      App.Views['AddResource'] = Backbone.View.extend({});
       var collView = new App.CollectionViews.Event(),
           view = Doubles.Views.Event(),
           addResourceSpy = sandbox.spy(App.Views, 'AddResource');
@@ -144,6 +146,26 @@ describe('collection-views/events', function(){
       collView.newResourceForEvent(view);
 
       expect(addResourceSpy).to.have.been.called;
+    });
+
+    it('should have the resource collection know to listen for the new resource', function(){
+      var collView = new App.CollectionViews.Event(),
+          view = Doubles.Views.Event(),
+          listenSpy = sandbox.spy(collView.resourceCollection, 'listenForNewResource'); 
+
+      collView.newResourceForEvent(view);
+
+      expect(listenSpy).to.have.been.called;
+    });
+
+    it('should render the new addResource view', function(){
+      var collView = new App.CollectionViews.Event(),
+          view = Doubles.Views.Event(),
+          addResourceRenderSpy = sandbox.spy(App.Views.AddResource.prototype, 'render');
+
+      collView.newResourceForEvent(view);
+
+      expect(addResourceRenderSpy).to.have.been.called;
     });
   });
 });

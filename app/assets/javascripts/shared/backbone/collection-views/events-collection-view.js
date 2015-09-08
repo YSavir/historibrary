@@ -45,5 +45,7 @@ App.CollectionViews.Event = Backbone.View.extend({
 
   newResourceForEvent: function(subView){
     var addResourceView = new App.Views.AddResource({model: subView.model});
+    this.resourceCollection.listenForNewResource(addResourceView, subView);
+    addResourceView.render();
   }
 });
