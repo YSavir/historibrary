@@ -19,24 +19,6 @@ describe('views/add-resource', function(){
     $('.add-resource-modul').remove();
   });
 
-  describe('.initialize', function(){
-    it('should render the view', function(){
-      var renderStub = sandbox.stub(App.Views.AddResource.prototype, 'render');
-      
-      new App.Views.AddResource(),
-
-      expect(renderStub).to.have.been.called;
-    });
-
-    it('should append the $el', function(){
-      var appendStub = sandbox.stub(App.Views.AddResource.prototype, 'appendToBody');
-
-      new App.Views.AddResource(),
-
-      expect(appendStub).to.have.been.called;
-    });
-  });
-  
   describe('el', function(){
     it('should be a div', function(){
       var view = new App.Views.AddResource(),
@@ -68,6 +50,47 @@ describe('views/add-resource', function(){
       view.render();
 
       expect(view.$el.html()).to.equal('foo');
+    });
+
+    it('should append its $el to the body', function(){
+      var view = new App.Views.AddResource();
+
+      view.render();
+
+      expect($('.modul')[0]).to.exist;
+    });
+  });
+
+  describe('.clearModuls', function(){
+    it('should clear all moduls', function(){
+      var view = new App.Views.AddResource();
+      for(var i = 0; i < 2; i++) {
+        $('body').append('<div class="modul"></div>');
+      }
+    
+      view.clearModuls();
+
+      expect($('.modul')).to.have.lengthOf(0);
+    });
+  });
+
+  describe('.clearModulsAndRender', function(){
+    it('should call .clearModuls', function(){
+      var view = new App.Views.AddResource(),
+          clearSpy = sandbox.spy(view, 'clearModuls');
+
+      view.clearModulsAndRender();
+
+      expect(clearSpy).to.have.been.called;
+    });
+
+    it('should call .render', function(){
+      var view = new App.Views.AddResource(),
+          renderSpy = sandbox.spy(view, 'render');
+
+      view.clearModulsAndRender();
+
+      expect(renderSpy).to.have.been.called;
     });
   });
 
@@ -131,26 +154,6 @@ describe('views/add-resource', function(){
       view.preventEvent(e);
 
       expect(preventSpy).to.have.been.called;
-    });
-  });
-
-  describe('.appendToBody', function(){
-    it('should prepend the $el to the page', function(){
-      var view = new App.Views.AddResource({});
-
-      view.appendToBody();
-
-      expect($('div.add-resource-modul')[0]).to.equal(view.$el[0]);
-    });
-
-    it('should clear any existing moduls', function(){
-      var view = new App.Views.AddResource(),
-          otherView = new App.Views.AddResource();
-
-      view.appendToBody();
-      otherView.appendToBody();
-
-      expect($('.modul')).to.have.lengthOf(1);
     });
   });
 });
