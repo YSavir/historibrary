@@ -14,4 +14,21 @@ describe('collections/events', function(){
       expect(collection.url).to.equal('/api/v1/events')
     });
   });
+
+  describe('.addNewResource', function(){});
+
+  describe('.respondToNewResource', function(){
+    it('should set an event listener for \'submitResource\' on the passed object and respond with addNewResource', function(){
+      var coll = new App.Collections.Event(),
+          spy = sandbox.spy(coll, 'addNewResource'),
+          triggerArgs = {model: 'model', data: {}},
+          // create a skeleton collection to act as a resource collection
+          triggerObject = new ( Backbone.Collection.extend() );
+
+      coll.respondToNewResource(triggerObject);
+      triggerObject.trigger('submitResource', triggerArgs);
+
+      expect(spy).to.have.been.calledWith(triggerArgs);
+    });
+  });
 });

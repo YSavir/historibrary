@@ -22,17 +22,11 @@ describe('collection-views/events', function(){
 
   describe('.initialize', function(){
     it('should have its collection listen to the resource collection for new resources', function(){
-      var collView = buildCollView({models: 3}),
-          coll = collView.collection,
-          model = coll.models[0],
-          triggerArgs = {model: model},
-          collNewResourceSpy = sandbox.spy(coll, 'addNewResource');
+      var coll = Doubles.Collections.Event({models: 3}),
+          spy = sandbox.spy(coll, 'respondToNewResource'),
+          collView = new App.CollectionViews.Event({collection: coll});
 
-      setTimeout(function(){
-        collView.resourceCollection.trigger('submitResource', triggerArgs);
-
-        expect(collNewResourceSpy).to.have.been.calledWith(triggerArgs);
-      }, 50);
+      expect(spy).to.have.been.calledWith(collView.resourceCollection);
     });
   });
 
@@ -137,7 +131,7 @@ describe('collection-views/events', function(){
 
   describe('.renderSubViews', function(){
     it('should clear the ul before adding elements', function(){
-      var collView = buildCollView(),
+      var collView = buildCollView();
 
       collView.$el.find('ul').append("<li>Foo</li><li>Bar</li>");
       collView.renderSubViews();

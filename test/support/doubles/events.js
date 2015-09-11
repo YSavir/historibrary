@@ -38,7 +38,7 @@
   // Event Collection Doubles
 
   var EventCollectionDouble = Backbone.Collection.extend({
-    addNewResource: function(){ console.log('hi'); }
+    respondToNewResource: function(){}
   });
 
   Doubles.Collections.Event = function(opts){
