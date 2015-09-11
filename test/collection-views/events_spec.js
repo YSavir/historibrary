@@ -1,17 +1,44 @@
 describe('collection-views/events', function(){
+
   App.Views['AddResource'] = Backbone.View.extend({});
+
   App.Collections.Resource = Backbone.Collection.extend({
     listenForNewResource: function(){}
   });
+
+  var buildCollView = function(opts){
+    opts = opts || {};
+    var collection = opts.models ?
+                       Doubles.Collections.Event({models: opts.models}) :
+                       Doubles.Collections.Event();
+    
+    return new App.CollectionViews.Event({collection: collection});
+  };
 
   afterEach(function(){
     sandbox.restore();
     $('.events.content').empty();
   });
 
+  describe('.initialize', function(){
+    it('should have its collection listen to the resource collection for new resources', function(){
+      var collView = buildCollView({models: 3}),
+          coll = collView.collection,
+          model = coll.models[0],
+          triggerArgs = {model: model},
+          collNewResourceSpy = sandbox.spy(coll, 'addNewResource');
+
+      setTimeout(function(){
+        collView.resourceCollection.trigger('submitResource', triggerArgs);
+
+        expect(collNewResourceSpy).to.have.been.calledWith(triggerArgs);
+      }, 50);
+    });
+  });
+
   describe('.$el', function(){
     it('should return the .events.content element', function(){
-      var collView = new App.CollectionViews.Event();
+      var collView = buildCollView();
 
       var expectedElement = $('.events.content');
 
@@ -22,7 +49,7 @@ describe('collection-views/events', function(){
 
   describe('.resourceCollection', function(){
     it('should be a resource collection', function(){
-      var collView = new App.CollectionViews.Event();
+      var collView = buildCollView();
 
       expect(collView.resourceCollection).to.be.instanceOf(App.Collections.Resource);
     });
@@ -30,16 +57,14 @@ describe('collection-views/events', function(){
 
   describe('.render', function(){
     it('should return the collection view', function(){
-      var coll = Doubles.Collections.Event({models: 2});
-      var collView = new App.CollectionViews.Event({collection: coll});
+      var collView = buildCollView({models: 2});
 
       expect(collView.render()).to.eql(collView);
     });
 
     it('should apply the template to the $el', function(){
-      var collection = Doubles.Collections.Event();
-      var collView = new App.CollectionViews.Event({collection: collection});
-      var templateStub = Stubs.Templates.EventsList();
+      var collView = buildCollView(),
+          templateStub = Stubs.Templates.EventsList();
       templateStub.returns(TemplateStrings.eventList);
       
       collView.render();
@@ -48,20 +73,18 @@ describe('collection-views/events', function(){
     });
 
     it('should call .renderSubViews', function(){
-      var coll = Doubles.Collections.Event({models: 2});
-      var collView = new App.CollectionViews.Event({collection: coll});
-      var renderSubViewsSpy = sandbox.spy(collView, 'renderSubViews');
+      var collView = buildCollView({models: 2}),
+          renderSubViewsSpy = sandbox.spy(collView, 'renderSubViews');
 
       collView.render();
 
       expect(renderSubViewsSpy.called).to.be.true;
-
     });
   });
 
   describe('renderSubView', function(){
     it('should add the subView to .views', function(){
-      var collView = new App.CollectionViews.Event(),
+      var collView = buildCollView(),
           view = new Doubles.Views.Event();
 
       collView.renderSubView(view);
@@ -70,7 +93,7 @@ describe('collection-views/events', function(){
     });
 
     it('should render the view', function(){
-      var collView = new App.CollectionViews.Event(),
+      var collView = buildCollView(),
           view = Doubles.Views.Event(),
           subViewRenderSpy = sandbox.spy(view, 'render');
       
@@ -80,7 +103,7 @@ describe('collection-views/events', function(){
     });
 
     it('should listen to the view\'s renderDetails event', function(){
-      var collView = new App.CollectionViews.Event(),
+      var collView = buildCollView(),
           view = Doubles.Views.Event(),
           listenerSpy = sandbox.spy(collView, 'collapseInactiveViews');
 
@@ -91,7 +114,7 @@ describe('collection-views/events', function(){
     });
 
     it ('should listen to the view\'s addResource event', function(){
-      var collView = new App.CollectionViews.Event(),
+      var collView = buildCollView(),
           view = Doubles.Views.Event(),
           listenerStub = sandbox.stub(collView, 'newResourceForEvent');
       
@@ -102,10 +125,9 @@ describe('collection-views/events', function(){
     });
 
     it('should append the sub view\s $el to its ul', function(){
-      var collView = new App.CollectionViews.Event(),
+      var collView = buildCollView(),
           view = Doubles.Views.Event();
 
-      
       collView.$el.append('<ul></ul>');
       collView.renderSubView(view);
 
@@ -114,12 +136,10 @@ describe('collection-views/events', function(){
   });
 
   describe('.renderSubViews', function(){
-
     it('should clear the ul before adding elements', function(){
-      var coll = Doubles.Collections.Event(),
-          collView = new App.CollectionViews.Event({collection: coll});
+      var collView = buildCollView(),
 
-      collView.$el.find('ul').append("<li>Food</li><li>Bar</li>");
+      collView.$el.find('ul').append("<li>Foo</li><li>Bar</li>");
       collView.renderSubViews();
       var ulElements = collView.$el.find('ul').children();
 
@@ -127,8 +147,7 @@ describe('collection-views/events', function(){
     });
 
     it('should render a sub view for each of the collection\'s models', function(){
-      var coll = Doubles.Collections.Event({models: 3}),
-          collView = new App.CollectionViews.Event({collection: coll}),
+      var collView = buildCollView({models: 3}),
           renderSubViewSpy = sandbox.spy(collView, 'renderSubView');
 
       collView.renderSubViews();
@@ -139,7 +158,7 @@ describe('collection-views/events', function(){
 
   describe('.newResourceForEvent', function(){
     it('should instantiate a new addResource view for the given event', function(){
-      var collView = new App.CollectionViews.Event(),
+      var collView = buildCollView(),
           view = Doubles.Views.Event(),
           addResourceSpy = sandbox.spy(App.Views, 'AddResource');
 
@@ -149,7 +168,7 @@ describe('collection-views/events', function(){
     });
 
     it('should have the resource collection know to listen for the new resource', function(){
-      var collView = new App.CollectionViews.Event(),
+      var collView = buildCollView(),
           view = Doubles.Views.Event(),
           listenSpy = sandbox.spy(collView.resourceCollection, 'listenForNewResource'); 
 
@@ -159,7 +178,7 @@ describe('collection-views/events', function(){
     });
 
     it('should render the new addResource view', function(){
-      var collView = new App.CollectionViews.Event(),
+      var collView = buildCollView(),
           view = Doubles.Views.Event(),
           addResourceRenderSpy = sandbox.spy(App.Views.AddResource.prototype, 'render');
 

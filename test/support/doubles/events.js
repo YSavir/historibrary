@@ -37,9 +37,9 @@
 
   // Event Collection Doubles
 
-  var EventCollectionDouble = function(){
-    this.models = [];
-  }
+  var EventCollectionDouble = Backbone.Collection.extend({
+    addNewResource: function(){ console.log('hi'); }
+  });
 
   Doubles.Collections.Event = function(opts){
     opts = opts || {};

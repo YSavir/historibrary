@@ -3,8 +3,13 @@ App.CollectionViews.Event = Backbone.View.extend({
   views: [],
 
   initialize: function(){
+    var coll = this.collection;
+
     this.$el = $('.events.content');
     this.resourceCollection = new App.Collections.Resource;
+
+    coll.listenTo(this.resourceCollection, 'submitResource', coll.addNewResource);
+    // coll.listenTo(this.resourceCollection, 'submitResource', function(){debugger;});
   },
 
   render: function(){
