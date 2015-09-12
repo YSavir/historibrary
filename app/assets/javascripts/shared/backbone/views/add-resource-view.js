@@ -35,6 +35,8 @@ App.Views.AddResource = Backbone.View.extend({
           source_url: form['resource[source_url]'].value
         };
 
+    this.collection.createResourceForEvent(this.model, values);
+
     this.preventEvent(e);
     this.$el.find('form input[type=text]').each(function(idx, input){
       $(input).val('');

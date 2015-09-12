@@ -14,6 +14,12 @@ describe('views/add-resource', function(){
     };
   };
 
+  var buildResourceCollection = function(){
+    return new ( Backbone.Collection.extend({
+      createResourceForEvent: function(){}
+    }) );
+  };
+
   afterEach(function(){
     sandbox.restore();
     $('.add-resource-modul').remove();
@@ -105,14 +111,15 @@ describe('views/add-resource', function(){
   });
 
   describe('submitResource', function(){
-    it('should create resource object with form data', function(){
+    it('should pass the resource data to the resource collection', function(){
       var model = Doubles.Models.Event(),
-          view = new App.Views.AddResource({model: model}),
-          createResourceStub = sandbox.stub(model, 'createResource');
+          coll = buildResourceCollection(),
+          view = new App.Views.AddResource({model: model, collection: coll}),
+          createResourceStub = sandbox.stub(coll, 'createResourceForEvent');
 
       renderFillAndSubmitNewResourceForm(view);
       
-      expect(createResourceStub).to.have.been.calledWith({
+      expect(createResourceStub).to.have.been.calledWith(model, {
         name: 'namefoo',
         summary: 'summaryfoo',
         source_url: 'sourcefoo'
@@ -121,8 +128,9 @@ describe('views/add-resource', function(){
 
     it('should reset the form', function(){
       var model = Doubles.Models.Event(),
-          view = new App.Views.AddResource({model: model}),
-          createResourceStub = sandbox.stub(model, 'createResource');
+          coll = buildResourceCollection(),
+          view = new App.Views.AddResource({model: model, collection: coll}),
+          createResourceStub = sandbox.stub(coll, 'createResourceForEvent');
 
       renderFillAndSubmitNewResourceForm(view);
       var form = view.$el.find('form')[0];
@@ -135,7 +143,8 @@ describe('views/add-resource', function(){
 
     it('should prevent default', function(){
       var model = Doubles.Models.Event(),
-          view = new App.Views.AddResource({model: model}),
+          coll = buildResourceCollection(),
+          view = new App.Views.AddResource({model: model, collection: coll}),
           preventSpy = sandbox.stub(view, 'preventEvent');
 
 
