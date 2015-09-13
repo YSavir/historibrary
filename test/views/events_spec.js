@@ -96,6 +96,16 @@ describe('views/events', function(){
       
       expect(renderedAsDetails).to.be.true;
     });
+    
+    it('should trigger \'renderDetails\'', function(){
+      var model = Doubles.Models.Event(),
+          view = new App.Views.Event({model: model}),
+          triggerSpy = sandbox.spy(view, 'trigger');
+
+      view.renderDetails();
+      
+      expect(triggerSpy).to.be.calledWith('renderDetails', view);
+    });
   });
 
   describe('.triggerAddResource', function(){

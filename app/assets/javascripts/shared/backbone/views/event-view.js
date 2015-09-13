@@ -14,12 +14,37 @@ App.Views.Event = Backbone.View.extend({
 
   render: function(opts){
     opts = opts || {};
-    var targetTemplate = this.extractTemplateFrom(opts.as),
-        html = this._template(targetTemplate, this.model.attributes);
 
-    this.$el.html(html)
+    if (opts.as === 'details') {
+      this._renderAsDetails();
+
+    } else if (opts.as === 'summary') {
+      this._renderAsSummary();
+
+    } else {
+      this._renderAsSummary();
+    };
 
     return this;
+  },
+
+  _renderAsDetails: function(){
+    var html = this._template('details', this.model.attributes);
+    this.delegateEvents(this.detailEvents);
+
+    this._appendWithHTML(html);
+  },
+
+  _renderAsSummary: function(){
+    var html = this._template('summary', this.model.attributes);
+    this.delegateEvents(this.summaryEvents);
+
+
+    this._appendWithHTML(html);
+  },
+
+  _appendWithHTML: function(html){
+    this.$el.html(html);
   },
 
   _template: function(template, attributes){
@@ -39,6 +64,7 @@ App.Views.Event = Backbone.View.extend({
   renderDetails: function(){
     this.render({as: 'details'});
     this.delegateEvents(this.detailEvents);
+    this.trigger('renderDetails', this);
   },
 
   extractTemplateFrom: function(asOption){
