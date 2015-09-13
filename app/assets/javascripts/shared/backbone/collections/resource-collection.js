@@ -8,7 +8,7 @@ App.Collections.Resource = Backbone.Collection.extend({
       context: this,
       method: "GET",
       contentType: "JSON",
-      url: "/api/v1/events/" + event.get('id') + "/resources",
+      url: "/api/v1/resources?event_id=" + event.get('id'),
       success: function(){
         return function(responseData){
           this.addResourcesFromResponse(responseData, event);

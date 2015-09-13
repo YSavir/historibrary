@@ -63,7 +63,7 @@ describe('collections/resource', function(){
     it('should make an AJAX call for the resources for a given event', function(){
       var event = Doubles.Models.Event({id: 1}),
           coll = new App.Collections.Resource(),
-          apiURL = '/api/v1/events/1/resources';
+          apiURL = '/api/v1/resources?event_id=1';
 
       coll.fetchForEvent(event);                                 
       var request = server.requests[0];
@@ -76,7 +76,7 @@ describe('collections/resource', function(){
     it('should trigger coll.addResourcesToEvent passing reponse data', function(){
       var event = Doubles.Models.Event({id: 1}),
           coll = new App.Collections.Resource(),
-          apiURL = '/api/v1/events/1/resources',
+          apiURL = '/api/v1/resources?event_id=1',
           addStub = sandbox.stub(coll, 'addResourcesFromResponse'),
           resources = [
             Doubles.Models.Resource({id: 1}).attributes,
