@@ -133,5 +133,52 @@ describe('collections/resource', function(){
       });
     });
   });
+
+  describe('createResourceForEvent', function(){
+    it('should make an API request to create the resource for the event', function(){
+      var event = Doubles.Models.Event({id: 1}),
+          coll = new App.Collections.Resource(),
+          apiURL = '/api/v1/resource',
+          resourceData = {
+            name: 'Some Resource',
+            summary: 'Some Resources Summary',
+            source_url: 'some.url.com.'
+          },
+          requestBody = $.param({event_id: event.get('id'), resource: resourceData});
+          
+      coll.createResourceForEvent(event, resourceData);
+      var request = server.requests[0];
+
+      expect(request).to.have.property('url', apiURL);
+      expect(request).to.have.property('method', 'POST');
+      expect(request).to.have.property('requestBody', requestBody);
+      expect(request.requestHeaders).to.have.property('Content-Type', 'JSON;charset=utf-8');
+    });
+
+    it('should add the returned resource to the event', function(){
+      var event = Doubles.Models.Event({id: 1}),
+          coll = new App.Collections.Resource(),
+          apiURL = '/api/v1/resource',
+          resourceData = {
+            name: 'Some Resource',
+            summary: 'Some Resources Summary',
+            source_url: 'some.url.com.'
+          },
+          returnedResource =  _.clone(resourceData),
+          addStub = sandbox.stub(coll, '_addResource');
+      returnedResource['id'] = 1;
+
+      server.respondWith('POST', apiURL, [
+        201,
+        {'Content-Type': 'application/json'},
+        JSON.stringify(returnedResource)
+      ]);
+
+      coll.createResourceForEvent(event, resourceData);
+      server.respond();
+
+      expect(addStub).to.have.been.calledWith(returnedResource, event);
+    });
+  });
 });
 

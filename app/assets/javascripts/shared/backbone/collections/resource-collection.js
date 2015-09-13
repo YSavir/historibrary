@@ -18,6 +18,21 @@ App.Collections.Resource = Backbone.Collection.extend({
     });
   },
 
+  createResourceForEvent: function(event, resourceData){
+    $.ajax({
+      url: '/api/v1/resource',
+      method: 'POST',
+      contentType: 'JSON',
+      data: {
+        event_id: event.get('id'),
+        resource: resourceData
+      },
+      success: function(data){
+        this._addResource(data, event);
+      }.bind(this)
+    });
+  },
+
   addResourcesFromResponse: function(resources, event){
     resources.forEach(function(resource){
       this._addResource(event, resource);
