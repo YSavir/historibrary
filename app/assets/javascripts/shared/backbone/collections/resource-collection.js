@@ -22,7 +22,7 @@ App.Collections.Resource = Backbone.Collection.extend({
     $.ajax({
       url: '/api/v1/resources',
       method: 'POST',
-      contentType: 'JSON',
+      dataType: 'JSON',
       data: {
         event_id: event.get('id'),
         resource: resourceData
@@ -59,7 +59,7 @@ App.Collections.Resource = Backbone.Collection.extend({
     // set that event's resources to an array if it isn't already created
     // TODO: Create a JS object to act as a join table lookup to replace this
     // method of tracking relations
-    var eventId = event.get('id'),
+    var eventId = event['id'],
         eventResources = this._eventResources[eventId];
 
     if (!eventResources) {
