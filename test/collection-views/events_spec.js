@@ -159,16 +159,7 @@ describe('collection-views/events', function(){
       collView.newResourceForEvent(view);
 
       expect(addResourceSpy).to.have.been.called;
-    });
-
-    it('should have the resource collection know to listen for the new resource', function(){
-      var collView = buildCollView(),
-          view = Doubles.Views.Event(),
-          listenSpy = sandbox.spy(collView.resourceCollection, 'listenForNewResource'); 
-
-      collView.newResourceForEvent(view);
-
-      expect(listenSpy).to.have.been.called;
+      expect(addResourceSpy.args[0][0]).to.have.property('collection', collView.resourceCollection);
     });
 
     it('should render the new addResource view', function(){
