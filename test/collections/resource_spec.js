@@ -138,7 +138,7 @@ describe('collections/resource', function(){
     it('should make an API request to create the resource for the event', function(){
       var event = Doubles.Models.Event({id: 1}),
           coll = new App.Collections.Resource(),
-          apiURL = '/api/v1/resource',
+          apiURL = '/api/v1/resources',
           resourceData = {
             name: 'Some Resource',
             summary: 'Some Resources Summary',
@@ -158,7 +158,7 @@ describe('collections/resource', function(){
     it('should add the returned resource to the event', function(){
       var event = Doubles.Models.Event({id: 1}),
           coll = new App.Collections.Resource(),
-          apiURL = '/api/v1/resource',
+          apiURL = '/api/v1/resources',
           resourceData = {
             name: 'Some Resource',
             summary: 'Some Resources Summary',

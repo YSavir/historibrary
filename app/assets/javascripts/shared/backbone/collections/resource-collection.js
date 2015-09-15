@@ -20,7 +20,7 @@ App.Collections.Resource = Backbone.Collection.extend({
 
   createResourceForEvent: function(event, resourceData){
     $.ajax({
-      url: '/api/v1/resource',
+      url: '/api/v1/resources',
       method: 'POST',
       contentType: 'JSON',
       data: {
