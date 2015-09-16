@@ -7,5 +7,9 @@ App.Collections.Event = Backbone.Collection.extend({
 
   respondToNewResource: function(source){
     this.listenTo(source, 'submitResource', this.addNewResource);
+  },
+
+  setResourcesForEvent: function(event){
+    this.resourceCollection.fetchForEvent(event);
   }
 });

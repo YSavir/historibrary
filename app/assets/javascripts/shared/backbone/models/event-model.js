@@ -4,6 +4,16 @@ App.Models.Event = Backbone.Model.extend({
     resources: []
   },
 
+  constructor: function(){
+    Backbone.Model.apply(this, arguments);
+
+    var resourcesAsModels = this.get('resources').map(function(resource){
+      return new App.Models.Resource(resource);
+    });
+
+    this.set('resources', resourcesAsModels);
+  },
+
   dateRange: function(){
     return this._isSingleDate()
       ? this.get('start_date')

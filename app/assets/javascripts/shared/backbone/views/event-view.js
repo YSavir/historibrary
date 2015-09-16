@@ -39,7 +39,6 @@ App.Views.Event = Backbone.View.extend({
     var html = this._template('summary', this.model.attributes);
     this.delegateEvents(this.summaryEvents);
 
-
     this._appendWithHTML(html);
   },
 

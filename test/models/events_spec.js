@@ -1,4 +1,8 @@
 describe('models/event', function(){
+
+  if (!App.Models.Resource) {
+    App.Models.Resource = Backbone.Model.extend();
+  }
   describe('.get("attribute")', function(){
     it('should return the attribute\'s value', function(){
       var event = new App.Models.Event({name: 'Sample Event'});
@@ -14,6 +18,20 @@ describe('models/event', function(){
       var event = new App.Models.Event();
 
       expect(event.attributes.resources).to.be.instanceOf(Array);
+    });
+  });
+
+  describe('.constructor', function(){
+    it('should set all non-resource attributes as normal', function(){
+      var event = new App.Models.Event({name: 'some event'}); 
+
+      expect(event.get('name')).to.equal('some event');
+    });
+
+    it('should convert any resources to Resource objects', function(){
+      var event = new App.Models.Event({resources: [{}]});
+
+      expect(event.get('resources')[0]).to.be.instanceOf(App.Models.Resource);
     });
   });
 
