@@ -126,21 +126,6 @@ describe('views/add-resource', function(){
       });
     });
 
-    it('should reset the form', function(){
-      var model = Doubles.Models.Event(),
-          coll = buildResourceCollection(),
-          view = new App.Views.AddResource({model: model, collection: coll}),
-          createResourceStub = sandbox.stub(coll, 'createResourceForEvent');
-
-      renderFillAndSubmitNewResourceForm(view);
-      var form = view.$el.find('form')[0];
-      
-      expect(form['resource[name]'].value).to.be.empty;
-      expect(form['resource[summary]'].value).to.be.empty;
-      expect(form['resource[source_url]'].value).to.be.empty;
-      expect(view.$el.find('form input[type=submit]').val()).to.equal('Submit Resource');
-    });
-
     it('should prevent default', function(){
       var model = Doubles.Models.Event(),
           coll = buildResourceCollection(),
@@ -151,6 +136,20 @@ describe('views/add-resource', function(){
       renderFillAndSubmitNewResourceForm(view);
 
       expect(preventSpy).to.have.been.called;
+    });
+
+    describe('and the resource submits successfully', function(){
+      it('should remove the modul', function(){
+        var model = Doubles.Models.Event(),
+            coll = buildResourceCollection(),
+            view = new App.Views.AddResource({model: model, collection: coll}),
+            createResourceStub = sandbox.stub(coll, 'createResourceForEvent');
+
+        renderFillAndSubmitNewResourceForm(view);
+        var modul = document.getElementsByClassName('.modul.add-resource-modul');
+
+        expect(modul).to.be.empty;
+      });
     });
   });
 

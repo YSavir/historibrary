@@ -38,9 +38,7 @@ App.Views.AddResource = Backbone.View.extend({
     this.collection.createResourceForEvent(this.model, values);
 
     this.preventEvent(e);
-    this.$el.find('form input[type=text]').each(function(idx, input){
-      $(input).val('');
-    });
+    this.clearModuls();
   },
 
   preventEvent: function(e){
