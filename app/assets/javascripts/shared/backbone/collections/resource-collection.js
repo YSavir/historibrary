@@ -28,7 +28,7 @@ App.Collections.Resource = Backbone.Collection.extend({
         resource: resourceData
       },
       success: function(data){
-        this._addResource(data, event);
+        this._addResource(event, data);
       }.bind(this)
     });
   },
@@ -50,7 +50,7 @@ App.Collections.Resource = Backbone.Collection.extend({
   },
 
   _addResource: function(event, resource){
-    this.add(resource);
+    resource = this.add(resource);
     this._addResourceForEvent(event, resource);
   },
 
@@ -59,7 +59,7 @@ App.Collections.Resource = Backbone.Collection.extend({
     // set that event's resources to an array if it isn't already created
     // TODO: Create a JS object to act as a join table lookup to replace this
     // method of tracking relations
-    var eventId = event['id'],
+    var eventId = event.get('id'),
         eventResources = this._eventResources[eventId];
 
     if (!eventResources) {
@@ -67,6 +67,7 @@ App.Collections.Resource = Backbone.Collection.extend({
     }
     
     if (eventResources.indexOf(resource) < 0 ){
+      event.addResource(resource);
       eventResources.push(resource);
     }
   }

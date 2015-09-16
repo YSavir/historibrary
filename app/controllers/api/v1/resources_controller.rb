@@ -3,7 +3,6 @@ class Api::V1::ResourcesController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    Pry.start binding
     resource = Resource.create resource_params
     resource.events << Event.find(params[:event_id])
     resource.creator = current_user

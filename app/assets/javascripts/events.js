@@ -7,5 +7,6 @@
 //= require_tree ./templates
 //= require shared/setup.js
 //= require shared/backbone/models/event-model
+//= require shared/backbone/models/resource-model
 //= require_tree ./shared
 //= require_tree ./events

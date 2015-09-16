@@ -9,6 +9,36 @@ describe('models/event', function(){
     });
   });
 
+  describe('.resources', function(){
+    it('should be an array', function(){
+      var event = new App.Models.Event();
+
+      expect(event.attributes.resources).to.be.instanceOf(Array);
+    });
+  });
+
+  describe('addResource', function(){
+    it('should add the resource to the resources array', function(){
+      var event = new App.Models.Event(),
+          resource = Doubles.Models.Resource();
+
+      event.addResource(resource);
+
+      expect(event.attributes.resources).to.include(resource);
+    });
+
+    it('should trigger change', function(){
+      var event = new App.Models.Event(),
+          resource = Doubles.Models.Resource(),
+          spy = sandbox.spy();
+
+      event.on('change', spy);
+      event.addResource(resource);
+
+      expect(spy).to.have.been.called;
+    });
+  });
+
   describe('start_date', function(){
     it('should return the start date of the event', function(){
       var event = new App.Models.Event({start_date: '1/1/1640'});

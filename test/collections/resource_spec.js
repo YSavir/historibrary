@@ -73,7 +73,7 @@ describe('collections/resource', function(){
       expect(request).to.have.property('url', apiURL);
     });
 
-    it('should trigger coll.addResourcesToEvent passing reponse data', function(){
+    it('should trigger coll.addResourcesToEvent passing response data', function(){
       var event = Doubles.Models.Event({id: 1}),
           coll = new App.Collections.Resource(),
           apiURL = '/api/v1/resources?event_id=1',
@@ -166,7 +166,7 @@ describe('collections/resource', function(){
             source_url: 'some.url.com.'
           },
           returnedResource =  _.clone(resourceData),
-          addStub = sandbox.stub(coll, '_addResource');
+          addStub = sandbox.stub(event, 'addResource');
       returnedResource['id'] = 1;
 
       server.respondWith('POST', apiURL, [
@@ -178,7 +178,7 @@ describe('collections/resource', function(){
       coll.createResourceForEvent(event, resourceData);
       server.respond();
 
-      expect(addStub).to.have.been.calledWith(returnedResource, event);
+      expect(addStub).to.have.been.called;
     });
   });
 });

@@ -1,8 +1,18 @@
 App.Models.Event = Backbone.Model.extend({
+
+  defaults: {
+    resources: []
+  },
+
   dateRange: function(){
     return this._isSingleDate()
       ? this.get('start_date')
       : this._joinedDates();
+  },
+
+  addResource: function(resource){
+    this.get('resources').push(resource);
+    this.trigger('change');
   },
 
   _isSingleDate: function(){

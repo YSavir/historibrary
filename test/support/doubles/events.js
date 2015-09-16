@@ -5,6 +5,7 @@
   var EventDouble = Backbone.Model.extend({
 
     dateRange: function(){ return '1/1/1640'; },
+    addResource: function(){},
 
     defaults: {
       name: 'Sample Event',
