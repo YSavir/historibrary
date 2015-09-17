@@ -11,12 +11,12 @@ RSpec.describe 'A logged-in user adding a resource to an event', :type => :featu
     event_li = page.find('.content.events ul li')
     event_li.click
     event_li.click_button("Add a Resource")
-    form = page.find('.add.resource form')
+    form = page.find('.new-resource-form')
     form.fill_in 'resource[name]', :with => resource_details[:name]
     form.fill_in 'resource[summary]', :with => resource_details[:summary]
     form.fill_in 'resource[source_url]', :with => resource_details[:source_url]
     form.click_button 'Submit'
 
-    expect(evnets_list.find('li:last-of-kind')).to have_text resource_details[:name]
+    expect(event_li.find('li:last-of-type')).to have_text resource_details[:name]
   end
 end
