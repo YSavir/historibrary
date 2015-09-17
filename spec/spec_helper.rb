@@ -2,6 +2,15 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'spork'
 require 'capybara/rspec'
+require 'capybara/poltergeist'
+
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, {
+    extensions: ['vendor/poltergeist/bind.js']
+  })
+end
+
+Capybara.javascript_driver = :poltergeist
 
 Spork.prefork do
   RSpec.configure do |config|
