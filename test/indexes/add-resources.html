@@ -1,0 +1,45 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mocha Tests</title>
+  <link href="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css" rel="stylesheet" />
+</head>
+<body>
+  <div id="mocha"></div>
+
+  <script src="https://cdn.rawgit.com/jquery/jquery/2.1.4/dist/jquery.min.js"></script>
+  <script src="https://cdn.rawgit.com/Automattic/expect.js/0.3.1/index.js"></script>
+  <script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>
+
+  <!-- Dependencies -->
+  <script src="./javascripts/jquery.js"></script>
+  <script src="./javascripts/mocha.js"></script>
+  <script src="./javascripts/chai.js"></script>
+  <script src="./javascripts/sinon.js"></script>
+  <script src="./javascripts/sinon-chai.js"></script>
+  <script src="./javascripts/spec-helper.js"></script>
+  <script src="./javascripts/handlebars-runtime.js"></script>
+  <script src="../../vendor/assets/javascripts/underscore.js"></script>
+  <script src="../../vendor/assets/javascripts/backbone.js"></script>
+  
+  <!-- Test Env -->
+  <script src="../support/doubles/events.js"></script>
+  <script>mocha.setup('bdd')</script>
+
+  <!-- App Objects -->
+  <script src="./javascripts/templates.js"></script>
+  <script src="../../app/assets/javascripts/shared/setup.js"></script>
+  <script
+    src="../../app/assets/javascripts/shared/backbone/views/add-resource-view.js"></script>
+
+  <!-- Specs  -->
+  <script src="../views/add_resource_spec.js"></script>
+  <script src="../templates/add_resource_spec.js"></script>
+
+  <script>
+    mocha.checkLeaks();
+    mocha.globals(['jQuery']);
+    mocha.run();
+  </script>
+</body>
+</html>

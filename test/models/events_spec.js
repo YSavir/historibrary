@@ -1,11 +1,59 @@
 describe('models/event', function(){
-  describe('name', function(){
-    it('should return the name of the event', function(){
+
+  if (!App.Models.Resource) {
+    App.Models.Resource = Backbone.Model.extend();
+  }
+  describe('.get("attribute")', function(){
+    it('should return the attribute\'s value', function(){
       var event = new App.Models.Event({name: 'Sample Event'});
 
       var eventName = event.get('name');
       
       expect(eventName).to.equal('Sample Event');
+    });
+  });
+
+  describe('.resources', function(){
+    it('should be an array', function(){
+      var event = new App.Models.Event();
+
+      expect(event.attributes.resources).to.be.instanceOf(Array);
+    });
+  });
+
+  describe('.constructor', function(){
+    it('should set all non-resource attributes as normal', function(){
+      var event = new App.Models.Event({name: 'some event'}); 
+
+      expect(event.get('name')).to.equal('some event');
+    });
+
+    it('should convert any resources to Resource objects', function(){
+      var event = new App.Models.Event({resources: [{}]});
+
+      expect(event.get('resources')[0]).to.be.instanceOf(App.Models.Resource);
+    });
+  });
+
+  describe('addResource', function(){
+    it('should add the resource to the resources array', function(){
+      var event = new App.Models.Event(),
+          resource = Doubles.Models.Resource();
+
+      event.addResource(resource);
+
+      expect(event.attributes.resources).to.include(resource);
+    });
+
+    it('should trigger change', function(){
+      var event = new App.Models.Event(),
+          resource = Doubles.Models.Resource(),
+          spy = sandbox.spy();
+
+      event.on('change', spy);
+      event.addResource(resource);
+
+      expect(spy).to.have.been.called;
     });
   });
 
@@ -44,6 +92,17 @@ describe('models/event', function(){
             });
 
         expect(event.dateRange()).to.equal('1/1/1640');
+      });
+    });
+
+    describe('With an end_date that precedes the start_date', function(){
+      it('should not be valid', function(){
+        var event = new App.Models.Event({
+          start_date: '1/2/2015',
+          end_date: '1/1/2015'
+        }); 
+
+        expect(event.isValid()).to.be.false
       });
     });
   });

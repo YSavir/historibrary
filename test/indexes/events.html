@@ -2,7 +2,7 @@
 <head>
   <meta charset="utf-8">
   <title>Mocha Tests</title>
-  <link href="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css" rel="stylesheet" />
+  <link href="./css/mocha.css" rel="stylesheet" />
 </head>
 <body>
   <div id="mocha"></div>
@@ -12,6 +12,7 @@
   <script src="./javascripts/mocha.js"></script>
   <script src="./javascripts/chai.js"></script>
   <script src="./javascripts/sinon.js"></script>
+  <script src="./javascripts/sinon-chai.js"></script>
   <script src="./javascripts/spec-helper.js"></script>
   <script src="./javascripts/handlebars-runtime.js"></script>
   <script src="../../vendor/assets/javascripts/underscore.js"></script>
@@ -19,6 +20,7 @@
   
   <!-- Test Env -->
   <script src="../support/doubles/events.js"></script>
+  <script src="../support/doubles/resources.js"></script>
   <script src="../support/template-tools.js"></script>
   <script>mocha.setup('bdd')</script>
 
@@ -31,10 +33,10 @@
   <script src="../../app/assets/javascripts/shared/backbone/collection-views/events-collection-view.js"></script>
 
   <!-- Specs  -->
-  <script src="../models/events_spec.js"></script>
-  <script src="../views/events_spec.js"></script>
   <script src="../collections/events_spec.js"></script>
   <script src="../collection-views/events_spec.js"></script>
+  <script src="../models/events_spec.js"></script>
+  <script src="../views/events_spec.js"></script>
   <script src="../templates/events_spec.js"></script>
 
   <div class="events content"></div>

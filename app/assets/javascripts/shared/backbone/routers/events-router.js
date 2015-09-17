@@ -19,7 +19,8 @@ App.Routers.Event = Backbone.Router.extend({
   },
 
   routes: {
-    '/events': 'index'
+    '/events': 'index',
+    '/': 'index'
   },
 
   index: function(){

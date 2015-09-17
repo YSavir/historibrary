@@ -4,7 +4,8 @@ window.HandlebarsTemplates = {};
 
 window.Doubles = {
   Models: {},
-  Collections: {}
+  Collections: {},
+  Views: {}
 },
 
 window.Stubs = {

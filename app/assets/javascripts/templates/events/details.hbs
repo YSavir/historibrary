@@ -5,9 +5,10 @@
 <h4>Event Resources</h4>
 <ul>
 {{#each attributes.resources}}
-  <li>
-    {{> resourceSummary }}
-  </li>
+<li>
+  {{~> resourceSummary }}
+</li>
 {{/each}}
 </ul>
 {{/if}}
+<button class="add-resource">Add a Resource</button>

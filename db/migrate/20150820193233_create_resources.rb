@@ -5,6 +5,8 @@ class CreateResources < ActiveRecord::Migration
       t.string :summary, :nil => false
       t.string :source_url
 
+      t.references :creator
+
       t.timestamps
     end
   end

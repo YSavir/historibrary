@@ -1,18 +1,21 @@
 (function(){
 
   // Event Model Doubles
-  var EventDouble = function(){
-    this.attributes = {
+
+  var EventDouble = Backbone.Model.extend({
+
+    dateRange: function(){ return '1/1/1640'; },
+    addResource: function(){},
+
+    defaults: {
       name: 'Sample Event',
       starting_date: '1/1/1640',
       ending_date: '1/1/1640',
       summary: 'This event has happened'
-    };
+    }
+  });
 
-    this.dateRange = function(){ return '1/1/1640'; } 
-  };
-
-  EventDouble.prototype.withResources = function(totalResources){
+   EventDouble.prototype.withResources = function(totalResources){
     this.attributes.resources = [];
 
     for (var i = 0; i < totalResources; i++){
@@ -35,9 +38,9 @@
 
   // Event Collection Doubles
 
-  var EventCollectionDouble = function(){
-    this.models = [];
-  }
+  var EventCollectionDouble = Backbone.Collection.extend({
+    respondToNewResource: function(){}
+  });
 
   Doubles.Collections.Event = function(opts){
     opts = opts || {};
@@ -51,5 +54,16 @@
 
     return collectionDouble;
   };
+
+  // Event View Doubles
+
+  var EventViewDouble = Backbone.View.extend({});
+
+  Doubles.Views.Event = function(){
+    var model = new EventDouble();
+
+    return new EventViewDouble({model: model});
+  };
+  
 })()
 

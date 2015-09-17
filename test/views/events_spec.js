@@ -4,12 +4,35 @@ describe('views/events', function(){
     sandbox.restore();
   });
 
-  describe('events', function(){
+  describe('initialize', function(){
+    it('should listen to changes on its model and render on trigger', function(){
+      var model = Doubles.Models.Event(),
+          view = new App.Views.Event({model: model}),
+          renderStub = sandbox.stub(view, 'render');
+
+      model.trigger('change');
+
+      expect(renderStub).to.have.been.called;
+      expect(renderStub.args[0][0]).to.have.property('as', 'details');
+    });
+  });
+
+  describe('summaryEvents', function(){
     describe('click', function(){
       it('should be set to renderDetails', function(){
         var view = new App.Views.Event();
 
-        expect(view.events.click).to.equal('renderDetails');
+        expect(view.summaryEvents.click).to.equal('renderDetails');
+      });
+    });
+  });
+
+  describe('detailEvents', function(){
+    describe('click button.add-resource', function(){
+      it('should be set to triggerAddResource', function(){
+        var view = new App.Views.Event({});
+
+        expect(view.detailEvents['click button.add-resource']).to.equal('triggerAddResource');
       });
     });
   });
@@ -28,7 +51,8 @@ describe('views/events', function(){
   describe('.render', function(){
 
     it('should return itself', function(){
-      var event = new App.Views.Event({model: {}});
+      var model = Doubles.Models.Event(),
+          event = new App.Views.Event({model: model});
 
       expect(event.render()).to.eql(event);
     });
@@ -71,6 +95,28 @@ describe('views/events', function(){
       var renderedAsDetails = renderSpy.calledWith(argumentsHash);
       
       expect(renderedAsDetails).to.be.true;
+    });
+    
+    it('should trigger \'renderDetails\'', function(){
+      var model = Doubles.Models.Event(),
+          view = new App.Views.Event({model: model}),
+          triggerSpy = sandbox.spy(view, 'trigger');
+
+      view.renderDetails();
+      
+      expect(triggerSpy).to.be.calledWith('renderDetails', view);
+    });
+  });
+
+  describe('.triggerAddResource', function(){
+    it('should trigger \'addResource\' on itself and pass itself', function(){
+      var view = new App.Views.Event(),
+          spy = sandbox.spy();
+
+      view.on('addResource', spy);
+      view.triggerAddResource();
+
+      expect(spy).to.have.been.calledWith(view);
     });
   });
 });
