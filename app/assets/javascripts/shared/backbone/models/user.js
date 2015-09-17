@@ -1,7 +1,7 @@
 App.Models.User = Backbone.Model.extend({
 
   defaults: {
-    name: 'Anonymous'
+    username: 'Anonymous'
   },
 
   isSignedIn: function(){
@@ -15,10 +15,15 @@ App.Models.User = Backbone.Model.extend({
     $.ajax({
       method: 'POST',
       url: '/users/sign_in',
+      context: this,
       data: {
         email: this.get('email'),
         password: opts.password
-      }
+      },
+      success: function(data){
+        this.set('username', data.username);
+        this.set('id', parseInt(data.id));
+      }.bind(this),
     });
   }
 });
