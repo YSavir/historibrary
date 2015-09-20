@@ -2,7 +2,10 @@ Rails.application.routes.draw do
 
   root 'events#index'
 
-  devise_for :users, :controllers => { registrations: 'users/registrations' }
+  devise_for :users, :controllers => {
+      registrations: 'users/registrations',
+      sessions: 'users/sessions'
+    }
    
   resources :events, :only => [:index]
 

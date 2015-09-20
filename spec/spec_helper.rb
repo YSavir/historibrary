@@ -4,15 +4,20 @@ require 'spork'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
 
-Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, {
-    extensions: ['vendor/poltergeist/bind.js']
-  })
-end
-
-Capybara.javascript_driver = :poltergeist
 
 Spork.prefork do
+  # support files
+  Dir["#{Rails.root}/spec/support/**/*.rb"].each { |f| require f }
+
+  # Capyabara Setup
+  Capybara.register_driver :poltergeist do |app|
+    Capybara::Poltergeist::Driver.new(app, {
+      extensions: ['vendor/poltergeist/bind.js']
+    })
+  end
+
+  Capybara.javascript_driver = :poltergeist
+  
   RSpec.configure do |config|
     config.expect_with :rspec do |expectations|
       expectations.syntax = :expect
@@ -24,10 +29,10 @@ Spork.prefork do
     end
 
     # Helper methods, etc.
-    Dir["#{Rails.root}/spec/support/**/*.rb"].each { |f| require f }
-    config.include SpecHelpers::EventViewHelpers
+    config.include SpecHelpers::EventViewHelpers, :type => :view
     config.include SpecHelpers::AuthenticationHelpers
     config.include FactoryGirl::Syntax::Methods
+    config.include Devise::TestHelpers, :type => :controller
   end
 end
 

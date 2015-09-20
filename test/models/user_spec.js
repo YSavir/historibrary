@@ -18,12 +18,10 @@ describe('models/user', function(){
   });
 
   describe('.isSignedIn', function(){
-    describe('and the user is not signed in', function(){
-      it('should return false', function(){
-        var user = new App.Models.User();
+    it('should default to false', function(){
+      var user = new App.Models.User();
 
-        expect(user.isSignedIn()).to.be.false;
-      });
+      expect(user.isSignedIn()).to.be.false;
     });
   });
 
@@ -67,6 +65,28 @@ describe('models/user', function(){
 
         expect(user.get('username')).to.equal('test user'); 
         expect(user.get('id')).to.eql(1);
+      });
+
+      it('should set the user as signed in', function(){
+        var user = new App.Models.User({
+          email: 'test@email.com',
+          password: 'password123'
+        }),
+        responseData = {
+          email: 'test@email.com',
+          id: '1',
+          username: 'test user'
+        };
+
+        server.respondWith('POST', '/users/sign_in', [
+         200,
+         {'Content-Type': 'application/json'},
+         JSON.stringify(responseData)
+        ]);
+        user.login({password: 'password123'});
+        server.respond();
+
+        expect(user.isSignedIn()).to.be.true;
       });
     });
   });

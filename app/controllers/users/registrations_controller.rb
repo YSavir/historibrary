@@ -2,6 +2,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   before_action :set_dashboard 
   before_filter :configure_permitted_parameters, :only => [:create]
+  respond_to :json
 
   private
 
