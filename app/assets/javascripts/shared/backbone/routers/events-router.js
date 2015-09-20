@@ -1,9 +1,13 @@
 App.Routers.Event = Backbone.Router.extend({
 
   initialize: function(){
-    this.collection = new App.Collections.Event();
+    this.session = new App.Models.Session();
+    this.collection = new App.Collections.Event({
+      session: this.session
+    });
     this.collView = new App.CollectionViews.Event({
-      collection: this.collection
+      collection: this.collection,
+      session: this.session
     });
 
     this.collection.fetch({
