@@ -12,7 +12,10 @@ describe('collection-views/events', function(){
                        Doubles.Collections.Event({models: opts.models}) :
                        Doubles.Collections.Event();
     
-    return new App.CollectionViews.Event({collection: collection});
+    return new App.CollectionViews.Event({
+      collection: collection,
+      session: {}
+    });
   };
 
   afterEach(function(){
@@ -58,12 +61,12 @@ describe('collection-views/events', function(){
 
     it('should apply the template to the $el', function(){
       var collView = buildCollView(),
-          templateStub = Stubs.Templates.EventsList();
-      templateStub.returns(TemplateStrings.eventList);
+          templateStub = sandbox.stub(HandlebarsTemplates, 'events/list');
+      templateStub.returns('list');
       
       collView.render();
 
-      expect(collView.$el.html()).to.equal(TemplateStrings.eventList);
+      expect(collView.$el.html()).to.equal('list');
     });
 
     it('should call .renderSubViews', function(){
@@ -77,15 +80,6 @@ describe('collection-views/events', function(){
   });
 
   describe('renderSubView', function(){
-    it('should add the subView to .views', function(){
-      var collView = buildCollView(),
-          view = new Doubles.Views.Event();
-
-      collView.renderSubView(view);
-
-      expect(collView.views).to.include(view);
-    });
-
     it('should render the view', function(){
       var collView = buildCollView(),
           view = Doubles.Views.Event(),
@@ -129,6 +123,41 @@ describe('collection-views/events', function(){
     });
   });
 
+  describe('.createSubView', function(){
+    it('should create a model using a given model and its session', function(){
+      var collView = buildCollView(),
+          model = Doubles.Models.Event(),
+          newViewStub = sandbox.stub(App.Views, 'Event'),
+          args = {model: model, session: collView.session},
+          givenArgs;
+
+      collView.createSubView(model);
+      givenArgs = newViewStub.args[0][0];
+
+      expect(newViewStub).to.be.called;
+      expect(givenArgs).to.deep.equal(args);
+    });
+
+    it('should return the new subView', function(){
+      var collView = buildCollView(),
+          model = Doubles.Models.Event(),
+          subView;
+
+      subView = collView.createSubView(model);
+
+      expect(subView).to.be.instanceOf(App.Views.Event);
+    });
+
+    it('should add the subView to .views', function(){
+      var collView = buildCollView(),
+          view;
+
+      view = collView.createSubView(new App.Models.Event());
+
+      expect(collView.views).to.include(view);
+    });
+  });
+
   describe('.renderSubViews', function(){
     it('should clear the ul before adding elements', function(){
       var collView = buildCollView();
@@ -138,6 +167,15 @@ describe('collection-views/events', function(){
       var ulElements = collView.$el.find('ul').children();
 
       expect(ulElements).to.have.lengthOf(0);
+    });
+
+    it('should create a sub view for each of the collection\'s models', function(){
+      var collView = buildCollView({models: 3}),
+          createSubViewSpy = sandbox.spy(collView, 'createSubView');
+
+      collView.renderSubViews();
+
+      expect(createSubViewSpy).to.have.been.calledThrice;
     });
 
     it('should render a sub view for each of the collection\'s models', function(){

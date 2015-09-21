@@ -4,12 +4,17 @@ App.Views.Event = Backbone.View.extend({
 
   validTemplateOptions: ['summary', 'details'],
 
-  initialize: function(){
+  initialize: function(opts){
+    opts = opts || {};
+
     this.delegateEvents(this.summaryEvents);
+
     if (this.model) {
       var callback = function() { this.render({as: 'details'}); }
       this.listenTo(this.model, 'change', callback); 
     }
+
+    if (opts.session) this.session = opts.session;
   },
 
   render: function(opts){
@@ -30,20 +35,30 @@ App.Views.Event = Backbone.View.extend({
 
   _renderAsDetails: function(){
     var html = this._template('details', this.model.attributes);
-    this.delegateEvents(this.detailEvents);
 
-    this._appendWithHTML(html);
+    this.delegateEvents(this.detailEvents);
+    this._setHTML(html);
+
+    if (this.session.hasLoggedInUser()) {
+      this._renderAndAppendAddResourceButton();
+    }
   },
 
   _renderAsSummary: function(){
     var html = this._template('summary', this.model.attributes);
     this.delegateEvents(this.summaryEvents);
 
-    this._appendWithHTML(html);
+    this._setHTML(html);
   },
 
-  _appendWithHTML: function(html){
+  _setHTML: function(html){
     this.$el.html(html);
+  },
+
+  _renderAndAppendAddResourceButton: function(){
+    var html = this._template('addResourceButton');
+
+    this.$el.append(html);
   },
 
   _template: function(template, attributes){

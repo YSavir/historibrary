@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'As a user that is viewing an event\'s details', :type => :feature, :js => true do
-  context 'and that is logged in' do
-    context 'and I submit a resource' do
+  context 'and is logged in' do
+    context 'and submits a resource' do
       scenario 'I should see that resource added to the event\'s resource list' do
       user = create :user
       resource_details = {name: "New Resource", summary: "new", source_url: 'url'}

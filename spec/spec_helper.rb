@@ -29,7 +29,7 @@ Spork.prefork do
     end
 
     # Helper methods, etc.
-    config.include SpecHelpers::EventViewHelpers, :type => :view
+    config.include SpecHelpers::EventViewHelpers
     config.include SpecHelpers::AuthenticationHelpers
     config.include FactoryGirl::Syntax::Methods
     config.include Devise::TestHelpers, :type => :controller

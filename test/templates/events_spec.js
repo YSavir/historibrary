@@ -30,8 +30,7 @@ describe('templates/events', function(){
         var event = Doubles.Models.Event(),
             targetHTML = "<h3>Sample Event</h3>\n"
                        + "<p>1/1/1640</p>\n"
-                       + "<p>This event has happened</p>\n"
-                       + "<button class=\"add-resource\">Add a Resource</button>\n";
+                       + "<p>This event has happened</p>\n";
 
         expect(HandlebarsTemplates['events/details'](event)).to.equal(targetHTML);
       });
@@ -49,12 +48,20 @@ describe('templates/events', function(){
                        + "<li>Some Resource</li>\n"
                        + "<li>Some Resource</li>\n"
                        + "<li>Some Resource</li>\n"
-                       + "</ul>\n"
-                       + "<button class=\"add-resource\">Add a Resource</button>\n";
+                       + "</ul>\n";
         resourceSummaryStub.returns('Some Resource');
 
         expect(HandlebarsTemplates['events/details'](event)).to.equal(targetHTML);
       });
+    });
+  });
+
+  describe('addResourceButton', function(){
+    it('should render the HTML for an add a resource button', function(){
+      var event = Doubles.Models.Event(),
+          targetHTML = "<button class=\"add-resource\">Add a Resource</button>\n";
+
+      expect(HandlebarsTemplates['events/addResourceButton'](event)).to.equal(targetHTML)
     });
   });
 });

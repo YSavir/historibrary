@@ -4,6 +4,15 @@ describe('views/events', function(){
     sandbox.restore();
   });
 
+  var buildEvent = function(model){
+    return new App.Views.Event({
+      model: model,
+      session: {
+        hasLoggedInUser: function(){ return true; }
+      }
+    });
+  }
+
   describe('initialize', function(){
     it('should listen to changes on its model and render on trigger', function(){
       var model = Doubles.Models.Event(),
@@ -61,25 +70,44 @@ describe('views/events', function(){
       it('should populate its element with summary content', function(){
         var model = Doubles.Models.Event(),
             view = new App.Views.Event({model: model}),
-            templateStub = Stubs.Templates.EventSummary();
-        templateStub.returns(TemplateStrings.eventSummary);
+            summaryStub = sandbox.stub(HandlebarsTemplates, 'events/summary');
+        summaryStub.withArgs(model).returns(function(){ return 'summary' });
 
         view.render({as: 'summary'});
 
-        expect(view.$el.html()).to.equal(TemplateStrings.eventSummary);
+        expect(view.$el.html()).to.equal('summary');
       });
     });
 
     describe('when rendering as details', function(){
-      it('should populate its element with details content', function(){
-        var model = Doubles.Models.Event(),
-            view = new App.Views.Event({model: model}),
-            templateStub = Stubs.Templates.EventDetails();
-        templateStub.returns(TemplateStrings.eventDetails);
+      describe('for a logged in user', function(){
+        it('should render details with an add resource button', function(){
+          var model = Doubles.Models.Event(),
+              view = buildEvent(model),
+              detailsStub = sandbox.stub(HandlebarsTemplates, 'events/details'),
+              addStub = sandbox.stub(HandlebarsTemplates, 'events/addResourceButton');
+          sandbox.stub(view.session, 'hasLoggedInUser').returns(true);
+          detailsStub.withArgs(model).returns(function(){ return 'details' });
+          addStub.withArgs(model).returns(function(){ return 'add' });
 
-        view.render({as: 'details'});
+          view.render({as: 'details'});
 
-        expect(view.$el.html()).to.equal(TemplateStrings.eventDetails);
+          expect(view.$el.html()).to.equal('detailsadd');
+        });
+      });
+
+      describe('for a user that is not logged in', function(){
+        it('should render details but no add resource button', function(){
+          var model = Doubles.Models.Event(),
+              view = buildEvent(model),
+              detailsStub = sandbox.stub(HandlebarsTemplates, 'events/details');
+          sandbox.stub(view.session, 'hasLoggedInUser').returns(false);
+          detailsStub.withArgs(model).returns(function(){ return 'details' });
+
+          view.render({as: 'details'});
+
+          expect(view.$el.html()).to.equal('details');
+        });
       });
     });
   });
@@ -87,7 +115,7 @@ describe('views/events', function(){
   describe('renderDetails', function(){
     it('should call render as \'details\'', function(){
       var model = Doubles.Models.Event(),
-          view = new App.Views.Event({model: model}),
+          view = buildEvent(model),
           renderSpy = sandbox.spy(view, 'render'),
           argumentsHash = {as: 'details'};
 
@@ -99,7 +127,7 @@ describe('views/events', function(){
     
     it('should trigger \'renderDetails\'', function(){
       var model = Doubles.Models.Event(),
-          view = new App.Views.Event({model: model}),
+          view = buildEvent(model),
           triggerSpy = sandbox.spy(view, 'trigger');
 
       view.renderDetails();

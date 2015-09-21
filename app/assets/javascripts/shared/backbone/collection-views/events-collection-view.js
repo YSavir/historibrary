@@ -2,8 +2,10 @@ App.CollectionViews.Event = Backbone.View.extend({
 
   views: [],
 
-  initialize: function(){
+  initialize: function(opts){
+    opts = opts || {};
     var coll = this.collection;
+    if (opts.session) this.session = opts.session;
 
     this.$el = $('.events.content');
     this.resourceCollection = new App.Collections.Resource;
@@ -21,8 +23,17 @@ App.CollectionViews.Event = Backbone.View.extend({
     return HandlebarsTemplates['events/list']();
   },
 
-  renderSubView: function(view){
+  createSubView: function(model){
+    var view = new App.Views.Event({
+      model: model,
+      session: this.session
+    });
+
     this.views.push(view);
+    return view;
+  },
+
+  renderSubView: function(view){
     view.render();
     this.$el.find('ul').append(view.$el);
 
@@ -35,7 +46,7 @@ App.CollectionViews.Event = Backbone.View.extend({
     this.views = [];
 
     this.collection.models.forEach(function(model){
-      var view = new App.Views.Event({model: model});
+      var view = this.createSubView(model);
       this.renderSubView(view);
     }.bind(this));
   },
