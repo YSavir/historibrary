@@ -11,12 +11,17 @@ App.Models.Event = Backbone.Model.extend({
       return new App.Models.Resource(resource);
     });
 
+    if (this.get('start_date') && this.get('end_date')){
+      this.set('start_date', this._getCorrectDate( this.get('start_date') ));
+      this.set('end_date', this._getCorrectDate(this.get('end_date') ));
+    }
+
     this.set('resources', resourcesAsModels);
   },
 
   dateRange: function(){
     return this._isSingleDate()
-      ? this.get('start_date')
+      ? this.get('start_date').toLocaleDateString()
       : this._joinedDates();
   },
 
@@ -25,15 +30,31 @@ App.Models.Event = Backbone.Model.extend({
     this.trigger('change');
   },
 
+  stringifiedStartDate: function(){
+    return this._stringifyDate(this.get('start_date'));
+  },
+
+  stringifiedEndDate: function(){
+    return this._stringifyDate(this.get('end_date'));
+  },
+
+  // new Date() with string cannot parse BC dates
+  // this function does it manually
+  _getCorrectDate: function(dateString){
+    var dateAttrs = dateString.split('/');
+    return new Date(dateAttrs[2], dateAttrs[0], dateAttrs[1]);
+  },
+
+  _stringifyDate: function(date){
+    return date.toLocaleDateString();
+  },
+
   _isSingleDate: function(){
-    var attrs = this.attributes;
-    if (attrs.start_date === attrs.end_date) { return true; }
-    return false;
+    return this.stringifiedStartDate() === this.stringifiedEndDate();
   },
 
   _joinedDates: function(){
-    var attrs = this.attributes;
-    return attrs.start_date + ' - ' + attrs.end_date;
+    return this.stringifiedStartDate() + ' - ' + this.stringifiedEndDate();
   },
 
   validate: function(attrs){

@@ -28,6 +28,18 @@ describe('models/event', function(){
       expect(event.get('name')).to.equal('some event');
     });
 
+    it('should set start date to a date object', function(){
+      var event = new App.Models.Event({start_date: '1/2/2015'}); 
+
+      expect(event.get('start_date')).to.be.instanceOf(Date);
+    });
+
+    it('should set end date to a date object', function(){
+      var event = new App.Models.Event({end_date: '1/2/2015'}); 
+
+      expect(event.get('end_date')).to.be.instanceOf(Date);
+    });
+
     it('should convert any resources to Resource objects', function(){
       var event = new App.Models.Event({resources: [{}]});
 
@@ -57,13 +69,19 @@ describe('models/event', function(){
     });
   });
 
-  describe('start_date', function(){
-    it('should return the start date of the event', function(){
+  describe('.stringifiedStartDate', function(){
+    it('should return the start date of the event as a string', function(){
       var event = new App.Models.Event({start_date: '1/1/1640'});
-
-      var eventName = event.get('start_date');
       
-      expect(eventName).to.equal('1/1/1640');
+      expect(event.stringifiedStartDate()).to.deep.equal('1/1/1640');
+    });
+  });
+
+  describe('.stringifiedEndDate', function(){
+    it('should return the end date of the event as a string', function(){
+      var event = new App.Models.Event({end_date: '1/1/1640'});
+      
+      expect(event.stringifiedEndDate()).to.deep.equal('1/1/1640');
     });
   });
 
