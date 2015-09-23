@@ -11,5 +11,11 @@ App.Collections.Event = Backbone.Collection.extend({
 
   setResourcesForEvent: function(event){
     this.resourceCollection.fetchForEvent(event);
+  },
+
+  orderByStartDate: function(){
+    return this.sortBy(function(event){
+      return event.get('start_date');
+    });
   }
 });

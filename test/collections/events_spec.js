@@ -5,7 +5,7 @@ describe('collections/events', function(){
     var coll = new App.Collections.Event();
     if (opts.models) {
       for (var i = 0; i < opts.models; i++){
-        coll.add({id: i});
+        coll.add(Doubles.Models.Event({id: i}));
       }
     }
     if (opts.resourceCollection){
@@ -28,6 +28,22 @@ describe('collections/events', function(){
       var collection = new App.Collections.Event();
 
       expect(collection.url).to.equal('/api/v1/events')
+    });
+  });
+
+  describe('.orderByStartDate', function(){
+    it('should return the models ordered by start_date', function(){
+      var collection = buildCollection(),
+          models = collection.models,
+          randomOrder = [2, 1, 3],
+          expectedOrder;
+      
+      for(var i = 0; i < 3; i++){
+        collection.add(Factory['user']({start_date: '1/' + randomOrder[i] + '/2015'}));
+      };
+      expectedOrder = [models[1], models[0], models[2]];
+
+      expect(collection.orderByStartDate()).to.eql(expectedOrder);
     });
   });
 

@@ -45,7 +45,7 @@ App.CollectionViews.Event = Backbone.View.extend({
     this.$el.find('ul').empty();
     this.views = [];
 
-    this.collection.models.forEach(function(model){
+    this.collection.orderByStartDate().forEach(function(model){
       var view = this.createSubView(model);
       this.renderSubView(view);
     }.bind(this));

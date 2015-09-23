@@ -10,7 +10,7 @@ RSpec.describe 'When viewing the events index,', :js => true do
       visit '/events'
 
       expect(page).to have_text 'Sample Event'
-      expect(page).to have_text '1/1/2015'
+      expect(page).to have_text '01/01/2015'
     end
   end
 end

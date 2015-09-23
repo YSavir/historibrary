@@ -12,6 +12,10 @@
       starting_date: '1/1/1640',
       ending_date: '1/1/1640',
       summary: 'This event has happened'
+    },
+
+    stringifiedStartDate: function(){
+      return this.get('start_date');
     }
   });
 
@@ -28,10 +32,7 @@
   Doubles.Models.Event = function(opts){
     opts = opts || {};
     var modelDouble = new EventDouble();
-
-    for(var prop in opts) {
-      modelDouble.attributes[prop] = opts[prop];
-    };
+    _.extend(modelDouble.attributes, opts);
 
     return modelDouble;
   };
@@ -39,7 +40,11 @@
   // Event Collection Doubles
 
   var EventCollectionDouble = Backbone.Collection.extend({
-    respondToNewResource: function(){}
+    respondToNewResource: function(){},
+    orderByStartDate: function(){
+      // Proper order typically not important for non-collectiont tests
+      return this.models;
+    }
   });
 
   Doubles.Collections.Event = function(opts){

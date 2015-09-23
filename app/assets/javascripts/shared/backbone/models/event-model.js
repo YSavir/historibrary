@@ -10,11 +10,10 @@ App.Models.Event = Backbone.Model.extend({
     var resourcesAsModels = this.get('resources').map(function(resource){
       return new App.Models.Resource(resource);
     });
+    
 
-    if (this.get('start_date') && this.get('end_date')){
-      this.set('start_date', this._getCorrectDate( this.get('start_date') ));
-      this.set('end_date', this._getCorrectDate(this.get('end_date') ));
-    }
+    this.set('start_date', this._getCorrectDate( this.get('start_date') ));
+    this.set('end_date', this._getCorrectDate(this.get('end_date') ));
 
     this.set('resources', resourcesAsModels);
   },
@@ -41,8 +40,9 @@ App.Models.Event = Backbone.Model.extend({
   // new Date() with string cannot parse BC dates
   // this function does it manually
   _getCorrectDate: function(dateString){
+    if (!dateString) return null;
     var dateAttrs = dateString.split('/');
-    return new Date(dateAttrs[2], dateAttrs[0], dateAttrs[1]);
+    return new Date(dateAttrs[2], dateAttrs[0] - 1, dateAttrs[1]);
   },
 
   _stringifyDate: function(date){

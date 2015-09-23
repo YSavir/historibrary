@@ -152,7 +152,7 @@ describe('collection-views/events', function(){
       var collView = buildCollView(),
           view;
 
-      view = collView.createSubView(new App.Models.Event());
+      view = collView.createSubView(Doubles.Models.Event());
 
       expect(collView.views).to.include(view);
     });
@@ -167,6 +167,15 @@ describe('collection-views/events', function(){
       var ulElements = collView.$el.find('ul').children();
 
       expect(ulElements).to.have.lengthOf(0);
+    });
+
+    it('should get events in order of start date', function(){
+      var collView = buildCollView({models: 3}),
+          orderSpy = sandbox.spy(collView.collection, 'orderByStartDate');
+
+      collView.renderSubViews();
+
+      expect(orderSpy).to.have.been.called;
     });
 
     it('should create a sub view for each of the collection\'s models', function(){

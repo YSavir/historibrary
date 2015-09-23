@@ -12,3 +12,5 @@ window.Stubs = {
   Templates: {}
 };
 
+window.Factory = {};
+
