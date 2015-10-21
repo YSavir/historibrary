@@ -5,6 +5,9 @@
 
   &> ul {
     list-style: none;
+    overflow-x: scroll;
+    white-space: nowrap;
+    max-height: 1000px;
 
     &:after {
       content: "";
@@ -20,12 +23,11 @@
     &>li {
       background-color: lighten($hblack, 10);
       display: inline-block;
-      text-align: top;
+      vertical-align: top;
       max-width: 150px;
 
       padding: 5px;
       margin: 5px;
-      float: left;
 
       transition-property: max-width;
       transition-duration: 1s;
