@@ -7,11 +7,16 @@
     overflow-x: scroll;
     white-space: nowrap;
     max-height: 1000px;
+    color: $hink;
 
     &:after {
       content: "";
       display: block;
       clear: both;
+    }
+    
+    p {
+      color: $hink;
     }
 
     .bar {
@@ -20,7 +25,7 @@
     }
 
     &>li {
-      background-color: lighten($hblack, 5);
+      background-color: lighten($hparchment, 5);
       display: inline-block;
       vertical-align: top;
       max-width: 150px;
@@ -44,7 +49,7 @@
         float: left;
         content: "";
         height: 52px;
-        background-color: $hparchment;
+        background-color: $hink;
         width: 2px;
       }
 
@@ -67,7 +72,7 @@
       }
 
       ul {
-        background-color: lighten($hblack, 10);
+        background-color: darken($hparchment, 2);
         padding: 10px;
         
         li {
@@ -83,7 +88,7 @@
 
           a {
             font-weight: bold;
-            color: $hparchment;
+            color: darken($hink, 5);
           }
         }
       }
