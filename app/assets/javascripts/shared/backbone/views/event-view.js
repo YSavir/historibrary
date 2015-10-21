@@ -38,6 +38,7 @@ App.Views.Event = Backbone.View.extend({
 
     this.delegateEvents(this.detailEvents);
     this._setHTML(html);
+    this.$el.addClass('details');
 
     if (this.session.hasLoggedInUser()) {
       this._renderAndAppendAddResourceButton();
@@ -49,6 +50,7 @@ App.Views.Event = Backbone.View.extend({
     this.delegateEvents(this.summaryEvents);
 
     this._setHTML(html);
+    this.$el.removeClass('details');
   },
 
   _setHTML: function(html){

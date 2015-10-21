@@ -51,6 +51,17 @@ describe('views/events', function(){
   });
 
   describe('.render', function(){
+    describe('when rendering a summary', function(){
+      it('should remove the \'detail\' class', function(){
+        var model = Doubles.Models.Event(),
+            view = buildEvent(model);
+
+        view.render({as: 'summary'});
+
+        expect(view.$el).to.not.have.class('details');
+      });
+    });
+
     describe('when rendering as details', function(){
       describe('for a logged in user', function(){
         it('should render details with an add resource button', function(){
@@ -101,6 +112,15 @@ describe('views/events', function(){
       view.renderDetails();
       
       expect(triggerSpy).to.be.calledWith('renderDetails', view);
+    });
+
+    it('should add the class \'details\' to the element', function(){
+      var model = Doubles.Models.Event(),
+          view = buildEvent(model);
+
+      view.renderDetails();
+
+      expect(view.$el).to.have.class('details');
     });
   });
 
