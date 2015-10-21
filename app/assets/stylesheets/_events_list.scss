@@ -20,13 +20,19 @@
     &>li {
       background-color: lighten($hblack, 10);
       display: inline-block;
-      width: 100px;
+      text-align: top;
+      max-width: 150px;
 
       padding: 5px;
       margin: 5px;
       float: left;
 
-      text-align: top;
+      transition-property: max-width;
+      transition-duration: 1s;
+
+      &.details {
+        max-width: 800px;
+      }
 
       &:before {
         position: relative;
