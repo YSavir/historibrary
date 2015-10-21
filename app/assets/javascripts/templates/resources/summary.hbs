@@ -1,5 +1,5 @@
 <h5>{{ attributes.name }}</h5>
 <p>{{ attributes.summary }}</p>
 {{#if attributes.source_url }}
-<a href="{{ attributes.source_url }}">Source</a>
+<p>See it on <a href="{{ attributes.source_url }}" target="_blank">{{ sourceName }}</a></p>
 {{/if}}

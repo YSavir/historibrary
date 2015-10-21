@@ -1,10 +1,9 @@
 .events.content {
   padding: 20px;
   margin-top: 100px;
-  background-color: lighten($hblack, 5);
 
   &> ul {
-    list-style: none;
+    list-style-type: none;
     overflow-x: scroll;
     white-space: nowrap;
     max-height: 1000px;
@@ -21,16 +20,18 @@
     }
 
     &>li {
-      background-color: lighten($hblack, 10);
+      background-color: lighten($hblack, 5);
       display: inline-block;
       vertical-align: top;
       max-width: 150px;
+      overflow-x: hidden;
+      white-space: nowrap;
 
-      padding: 5px;
+      padding: 10px;
       margin: 5px;
 
       transition-property: max-width;
-      transition-duration: 1s;
+      transition-duration: .5s;
 
       &.details {
         max-width: 800px;
@@ -42,10 +43,50 @@
         left: 50px;
         float: left;
         content: "";
-        height: 50px;
-        border: 1px solid $hparchment;
+        height: 52px;
+        background-color: $hparchment;
+        width: 2px;
       }
 
+      h3 {
+        font-size: 1.2em;
+      }
+
+      p.daterange {
+        margin-bottom: 5px;
+        font-size: .8em;
+      }
+
+      h4 {
+        margin-top: 20px;
+        margin-bottom: 5px;
+      }
+
+      h4, ul {
+        margin-left: 10px;
+      }
+
+      ul {
+        background-color: lighten($hblack, 10);
+        padding: 10px;
+        
+        li {
+          padding: 5px;
+
+          h5 {
+            font-size: 1.1em;
+          }
+
+          h5, p {
+            margin-bottom: 5px;
+          }
+
+          a {
+            font-weight: bold;
+            color: $hparchment;
+          }
+        }
+      }
     }
   }
 }
