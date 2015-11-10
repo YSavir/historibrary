@@ -19,20 +19,28 @@
   <script src="../../vendor/assets/javascripts/backbone.js"></script>
   
   <!-- Test Env -->
+  <script src="../support/behave-as/backbone-view.js"></script>
+  <script src="../support/doubles/sessions.js"></script>
+  <script src="../support/backbone-helpers.js"></script>
   <script>mocha.setup('bdd')</script>
 
   <!-- App Objects -->
   <script src="./javascripts/templates.js"></script>
   <script src="../../app/assets/javascripts/shared/setup.js"></script>
   <script src="../../app/assets/javascripts/shared/backbone/models/session.js"></script>
+  <script src="../../app/assets/javascripts/shared/backbone/views/session-view.js"></script>
+
+  <div class="session-login"></div>
 
   <!-- Specs  -->
-  <script src="../models/session_spec.js"></script>
+  <!-- <script src="../models/session_spec.js"></script> -->
+  <script src="../views/session_spec.js"></script>
 
   <script>
     mocha.checkLeaks();
     mocha.globals(['jQuery']);
     mocha.run();
   </script>
+
 </body>
 </html>

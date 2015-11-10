@@ -2,32 +2,26 @@ describe('views/session', function(){
 
   afterEach(function(){
     sandbox.restore();
+    $('div.session-login').empty();
+  });
+
+  var buildView = function(model){
+    model = model || Doubles.Models.Session();
+    return new App.Views.Session({
+      model: model,
+    });
+  }
+
+  itShouldBehaveAsBackboneView( buildView(), {
+    templates: ['sessions/loggedIn', 'sessions/loggedOut']
   });
 
   describe('el', function(){
     it('.should return the .session-login element', function(){
-      var view = new App.Views.Session();
+      var view = buildView();
       var targetEl = $('.session-login');
 
       expect(targetEl[0]).to.equal(view.$el[0]);
-    });
-  });
-
-  describe('.render', function(){
-    it('should return itself', function(){
-      var view = new App.Views.Session();
-
-      expect(view.render()).to.eql(view);
-    });
-
-    it('should render the proper template', function(){
-      var view = new App.Views.Session(),
-          templateStub = Stubs.Templates.SessionLogin();
-          templateStub.returns('session login template');
-      
-      view.render();
-
-      expect(view.$el.html()).to.equal('session login template');
     });
   });
 

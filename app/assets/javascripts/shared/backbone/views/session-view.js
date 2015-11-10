@@ -8,7 +8,7 @@ App.Views.Session = Backbone.View.extend({
     opts = opts || {};
     var targetTemplate = this._hasTemplate(opts.as) ?
                           opts.as :
-                          'login';
+                          'loggedIn';
     
     this.$el.html(this._template(targetTemplate));
     return this;
@@ -41,5 +41,5 @@ App.Views.Session = Backbone.View.extend({
     return this._validTemplates.indexOf(template) > -1;
   },
 
-  _validTemplates: ['login', 'welcome']
+  _validTemplates: ['loggedIn', 'loggedOut']
 });
