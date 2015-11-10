@@ -5,6 +5,7 @@ App.Routers.Event = Backbone.Router.extend({
     this.collection = new App.Collections.Event({
       session: this.session
     });
+
     this.collView = new App.CollectionViews.Event({
       collection: this.collection,
       session: this.session
