@@ -5,14 +5,15 @@ describe('views/add-resource', function(){
     $('input[name="resource[name]"]').val('namefoo');
     $('input[name="resource[summary]"]').val('summaryfoo');
     $('input[name="resource[source_url]"]').val('sourcefoo');
-    view.submitResource(eventDouble());
+    view.submitResource({preventDefault: function(){}});
   };
 
-  var eventDouble = function(){
-    return {
-      preventDefault: function(){}
-    };
-  };
+  var buildView = function(model, coll){
+    model = model || Doubles.Models.Event();
+    coll = coll || buildResourceCollection();
+
+    return new App.Views.AddResource({model: model, collection: coll});
+  }
 
   var buildResourceCollection = function(){
     return new ( Backbone.Collection.extend({
@@ -25,9 +26,13 @@ describe('views/add-resource', function(){
     $('.add-resource-modul').remove();
   });
 
+  itShouldBehaveAsBackboneView(buildView(), {
+    templates: ['add-resource']
+  });
+
   describe('el', function(){
     it('should be a div', function(){
-      var view = new App.Views.AddResource(),
+          var view = buildView(),
           tagName = view.el.tagName.toLowerCase();
 
 
@@ -35,31 +40,15 @@ describe('views/add-resource', function(){
     });
 
     it('should have the classes modul and add-resource-modul', function(){
-      var view = new App.Views.AddResource();
+      var view = buildView();
         
       expect(view.el.className).to.equal('modul add-resource-modul');
     });
   });
 
   describe('render', function(){
-    it('should return itself', function(){
-      var view = new App.Views.AddResource();
-
-      expect(view.render()).to.eql(view);
-    });
-
-    it('should populate its element with the template body', function(){
-      var view = new App.Views.AddResource(),
-          templateStub = sandbox.stub(HandlebarsTemplates, 'add-resource');
-      templateStub.returns('foo');
-
-      view.render();
-
-      expect(view.$el.html()).to.equal('foo');
-    });
-
     it('should append its $el to the body', function(){
-      var view = new App.Views.AddResource();
+      var view = buildView();
 
       view.render();
 
@@ -69,7 +58,8 @@ describe('views/add-resource', function(){
 
   describe('.clearModuls', function(){
     it('should clear all moduls', function(){
-      var view = new App.Views.AddResource();
+      var view = buildView();
+
       for(var i = 0; i < 2; i++) {
         $('body').append('<div class="modul"></div>');
       }
@@ -82,7 +72,7 @@ describe('views/add-resource', function(){
 
   describe('.clearModulsAndRender', function(){
     it('should call .clearModuls', function(){
-      var view = new App.Views.AddResource(),
+      var view = buildView(),
           clearSpy = sandbox.spy(view, 'clearModuls');
 
       view.clearModulsAndRender();
@@ -91,7 +81,7 @@ describe('views/add-resource', function(){
     });
 
     it('should call .render', function(){
-      var view = new App.Views.AddResource(),
+      var view = buildView(),
           renderSpy = sandbox.spy(view, 'render');
 
       view.clearModulsAndRender();
@@ -103,7 +93,7 @@ describe('views/add-resource', function(){
   describe('events', function(){
     describe('submit form', function(){
       it('should be set to submitResource', function(){
-        var view = new App.Views.AddResource();
+        var view = buildView();
 
         expect(view.events['submit form']).to.equal('submitResource');
       });
@@ -112,14 +102,12 @@ describe('views/add-resource', function(){
 
   describe('submitResource', function(){
     it('should pass the resource data to the resource collection', function(){
-      var model = Doubles.Models.Event(),
-          coll = buildResourceCollection(),
-          view = new App.Views.AddResource({model: model, collection: coll}),
-          createResourceStub = sandbox.stub(coll, 'createResourceForEvent');
+      var view = buildView(),
+          createResourceStub = sandbox.stub(view.collection, 'createResourceForEvent');
 
       renderFillAndSubmitNewResourceForm(view);
       
-      expect(createResourceStub).to.have.been.calledWith(model, {
+      expect(createResourceStub).to.have.been.calledWith(view.model, {
         name: 'namefoo',
         summary: 'summaryfoo',
         source_url: 'sourcefoo'
@@ -127,9 +115,7 @@ describe('views/add-resource', function(){
     });
 
     it('should prevent default', function(){
-      var model = Doubles.Models.Event(),
-          coll = buildResourceCollection(),
-          view = new App.Views.AddResource({model: model, collection: coll}),
+      var view = buildView(),
           preventSpy = sandbox.stub(view, 'preventEvent');
 
 
@@ -140,10 +126,8 @@ describe('views/add-resource', function(){
 
     describe('and the resource submits successfully', function(){
       it('should remove the modul', function(){
-        var model = Doubles.Models.Event(),
-            coll = buildResourceCollection(),
-            view = new App.Views.AddResource({model: model, collection: coll}),
-            createResourceStub = sandbox.stub(coll, 'createResourceForEvent');
+        var view = buildView(),
+            createResourceStub = sandbox.stub(view.collection, 'createResourceForEvent');
 
         renderFillAndSubmitNewResourceForm(view);
         var modul = document.getElementsByClassName('.modul.add-resource-modul');
@@ -155,7 +139,7 @@ describe('views/add-resource', function(){
 
   describe('.preventEvent', function(){
     it('should prevent the given event', function(){
-      var view = new App.Views.AddResource(), 
+      var view = buildView(),
           e = {preventDefault: function(){}},
           preventSpy = sandbox.spy(e, 'preventDefault');
 

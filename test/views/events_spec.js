@@ -14,7 +14,9 @@ describe('views/events', function(){
     });
   }
 
-  itShouldBehaveAsBackboneView(buildEvent());
+  itShouldBehaveAsBackboneView(buildEvent(), {
+    templates: ['events/summary']
+  });
 
   describe('initialize', function(){
     it('should listen to changes on its model and render on trigger', function(){
@@ -49,26 +51,6 @@ describe('views/events', function(){
   });
 
   describe('.render', function(){
-    describe('.el', function(){
-      it('should return a list element', function(){
-        var tagName = view.el.tagName.toLowerCase();
-
-        expect(tagName).to.equal('li');
-      });
-    });
-
-    describe('when rendering a summary', function(){
-      it('should populate its element with summary content', function(){
-        var view = buildEvent(),
-            summaryStub = sandbox.stub(HandlebarsTemplates, 'events/summary');
-        summaryStub.withArgs(view.model).returns(function(){ return 'summary' });
-
-        view.render({as: 'summary'});
-
-        expect(view.$el.html()).to.equal('summary');
-      });
-    });
-
     describe('when rendering as details', function(){
       describe('for a logged in user', function(){
         it('should render details with an add resource button', function(){
@@ -124,7 +106,7 @@ describe('views/events', function(){
 
   describe('.triggerAddResource', function(){
     it('should trigger \'addResource\' on itself and pass itself', function(){
-      var view = new App.Views.Event(),
+      var view = buildEvent(),
           spy = sandbox.spy();
 
       view.on('addResource', spy);
