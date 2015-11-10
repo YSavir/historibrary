@@ -6,7 +6,9 @@
       name: "Sample Session",
       summary: "Session Summary",
       source_url: "I'm a URL"
-    }
+    },
+
+    addUserWithCredentials: function(){}
   });
 
   Doubles.Models.Session = function(opts){

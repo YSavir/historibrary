@@ -26,19 +26,23 @@ App.Views.Session = Backbone.View.extend({
     var userInput = {
           email: $('input[name="user-email"]').val(),
           password: $('input[name="user-password"]').val()
-        },
-        success = function(){
-          this.render({as: 'welcome'});
-        }.bind(this),
-        error = function(){
-          this.render({as: 'login'});
-        }.bind(this);
+        };
 
-    this.model.addUserWithCredentials(userInput, success, error);
+    this.model.addUserWithCredentials(userInput,
+                                      this._renderAsLoggedIn,
+                                      this._renderAsLoggedOut);
   }, 
 
   _hasTemplate: function(template){
     return this._validTemplates.indexOf(template) > -1;
+  },
+
+  _renderAsLoggedIn: function(){
+    this.render({as: 'loggedIn'});
+  },
+
+  _renderAsLoggedOut: function(){
+    this.render({as: 'loggedOut'});
   },
 
   _validTemplates: ['loggedIn', 'loggedOut']

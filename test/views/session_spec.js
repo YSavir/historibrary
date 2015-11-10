@@ -1,4 +1,6 @@
 describe('views/session', function(){
+  var usernameInput = "<input name='user-email'>",
+      passwordInput = "<input name='user-password'>";
 
   afterEach(function(){
     sandbox.restore();
@@ -37,47 +39,21 @@ describe('views/session', function(){
 
   describe('loginUserFromView', function(){
     it('should have its session model add the user from the input data', function(){
-      var model = Doubles.Models.Session(),
-          view = new App.Views.Session({model: model}),
+      var view = buildView(),
           userData = {
             email: "example@email.com",
             password: "password123"
           },
-          modelUserAuthSpy = sandbox.spy(model, 'addUserWithCredentials'); 
+          modelUserAuthSpy = sandbox.spy(view.model, 'addUserWithCredentials'); 
 
-      view.render();
+      $('div.session-login').html(usernameInput + passwordInput);
       $('input[name="user-email"]').val("example@email.com");
       $('input[name="user-password"]').val("password123");
       view.loginUserFromView();
 
-      expect(modelUserAuthSpy).to.have.been.calledWith(userData);
-    });
-
-    it('should render the welcome view if a user is logged in', function(){
-      var model = Doubles.Models.Session(),
-          view = new App.Views.Session({model: model}),
-          modelAuthenticationStub = sandbox.stub(model, 'addUserWithCredentials'),
-          templateStub = sandbox.stub(HandlebarsTemplates, 'sessions/welcome');
-      templateStub.returns('Welcome Template');
-      
-      view.loginUserFromView();
-      modelAuthenticationStub.callArg(1);
-
-
-      expect(view.$el.html()).to.equal('Welcome Template');
-    });
-
-    it('should render the login view if a user is not logged in', function(){
-      var model = Doubles.Models.Session(),
-          view = new App.Views.Session({model: model}),
-          modelAuthenticationStub = sandbox.stub(model, 'addUserWithCredentials'),
-          templateStub = sandbox.stub(HandlebarsTemplates, 'sessions/login');
-      templateStub.returns('Login Template');
-      
-      view.loginUserFromView();
-      modelAuthenticationStub.callArg(2);
-
-      expect(view.$el.html()).to.equal('Login Template');
+      expect(modelUserAuthSpy).to.have.been.calledWith(userData,
+                                                       view._renderAsLoggedIn,
+                                                       view._renderAsLoggedOut);
     });
   });
 });

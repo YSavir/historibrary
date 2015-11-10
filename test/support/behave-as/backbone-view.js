@@ -7,7 +7,9 @@ var itShouldBehaveAsBackboneView = function(view, opts){
       it('should return itself', function(){
         expect(view.render()).to.eql(view);
       });
+    });
 
+    describe('.templates', function(){
       opts.templates.forEach(function(template){
         it('should render the ' + template + ' template', function(){
           var templateStub = sandbox.stub(HandlebarsTemplates, template),
