@@ -2,6 +2,9 @@ App.Routers.Event = Backbone.Router.extend({
 
   initialize: function(){
     this.session = new App.Models.Session();
+    this.sessionView = new App.Views.Session({model: this.session});
+    this.sessionView.render();
+
     this.collection = new App.Collections.Event({
       session: this.session
     });
