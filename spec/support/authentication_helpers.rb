@@ -15,9 +15,9 @@ module SpecHelpers
 
     def log_in_as(user)
       visit '/'
-      fill_in 'user[email]', :with => user.email
-      fill_in 'user[password]', :with => user.password
-      click_button 'Sign in'
+      fill_in 'user-email', :with => user.email
+      fill_in 'user-password', :with => user.password
+      click_button 'Sign In'
     end
 
   end
