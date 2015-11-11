@@ -55,7 +55,7 @@ describe('views/session', function(){
             email: "example@email.com",
             password: "password123"
           },
-          modelUserAuthSpy = sandbox.spy(view.model, 'addUserWithCredentials'); 
+          modelUserAuthSpy = sandbox.spy(view.model, 'loginUserWithCredentials'); 
 
       $('div.session-login').html(usernameInput + passwordInput);
       $('input[name="user-email"]').val("example@email.com");

@@ -8,7 +8,7 @@
       source_url: "I'm a URL"
     },
 
-    addUserWithCredentials: function(){}
+    loginUserWithCredentials: function(){}
   });
 
   Doubles.Models.Session = function(opts){

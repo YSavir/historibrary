@@ -28,7 +28,7 @@ App.Views.Session = Backbone.View.extend({
           password: $('input[name="user-password"]').val()
         };
 
-    this.model.addUserWithCredentials(userInput,
+    this.model.loginUserWithCredentials(userInput,
                                       this._renderAsLoggedIn,
                                       this._renderAsLoggedOut);
   }, 
