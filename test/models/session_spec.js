@@ -37,6 +37,30 @@ describe('models/session', function(){
     });
   });
 
+  describe('loginUserWithCredentials', function(){
+    it('should send a request to the server to login the user', function(){
+      var args,
+          credentials = {email: 'email', password: 'password'},
+          session = new App.Models.Session(),
+          ajaxSpy = sandbox.spy($, 'ajax');
+      
+      session.loginUserWithCredentials('email', 'password');
+      args = ajaxSpy.args[0][0];
+
+      expect(ajaxSpy).to.have.been.called;
+      expect(args).to.have.deep.property('data.user.email', 'email');
+      expect(args).to.have.deep.property('data.user.password', 'password');
+      expect(args).to.have.deep.property('data.user.remember_me', 0);
+      expect(args).to.have.property('url', '/users/sign_in');
+      expect(args).to.have.property('method', 'POST');
+      expect(args).to.have.property('dataType', 'JSON');
+      expect(args).to.have.property('context', session);
+      expect(args).to.have.property('success', session.addUser);
+      expect(args).to.have.property('error', session.logError);
+      expect(args).to.have.property('beforeSend', session.getCSRFToken);
+    });
+  });
+
   describe('syncToServerSession', function(){
     describe('when the session\'s user is not logged in', function(){
       describe('but the server has a user', function(){
@@ -69,7 +93,6 @@ describe('models/session', function(){
           session.syncToServerSession();
           server.respond();
           
-          debugger;
           expect(session.get('user').attributes).to.deep.equal(new App.Models.User().attributes);
         });
       });

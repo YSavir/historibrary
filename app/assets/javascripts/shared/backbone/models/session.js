@@ -14,6 +14,27 @@ App.Models.Session = Backbone.Model.extend({
     return this.get('user').isSignedIn();
   },
 
+  loginUserWithCredentials: function(email, password, rememberMe){
+    rememberMe = rememberMe || 0;
+
+    $.ajax({
+      data: {
+        user: {
+          email: email,
+          password: password,
+          remember_me: rememberMe
+        }
+      },
+      url: '/users/sign_in',
+      method: 'POST',
+      dataType: 'JSON',
+      context: this,
+      success: this.addUser,
+      error: this.logError,
+      beforeSend: this.getCSRFToken
+    }); 
+  },
+
   syncToServerSession: function(){
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
