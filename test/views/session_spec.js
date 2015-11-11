@@ -27,6 +27,17 @@ describe('views/session', function(){
     });
   });
 
+  describe('render', function(){
+    it('should render the loggedOut template by default', function(){
+      var view = buildView(),
+          templateSpy = sandbox.spy(HandlebarsTemplates, 'sessions/loggedOut');
+
+      view.render();
+
+      expect(templateSpy).to.have.been.called;
+    });
+  });
+
   describe('events', function(){
     it('should forward clicking on submit to `.loginUserFromView`', function(){
       var view = new App.Views.Session({}),

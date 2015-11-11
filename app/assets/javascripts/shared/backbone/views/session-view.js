@@ -8,7 +8,7 @@ App.Views.Session = Backbone.View.extend({
     opts = opts || {};
     var targetTemplate = this._hasTemplate(opts.as) ?
                           opts.as :
-                          'loggedIn';
+                          'loggedOut';
     
     this.$el.html(this._template(targetTemplate));
     return this;
