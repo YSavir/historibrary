@@ -15,7 +15,7 @@ App.Views.Session = Backbone.View.extend({
   },
 
   _template: function(targetTemplate){
-    return HandlebarsTemplates['sessions/' + targetTemplate]();
+    return HandlebarsTemplates['sessions/' + targetTemplate](this.model);
   },
 
   events: {
@@ -23,14 +23,17 @@ App.Views.Session = Backbone.View.extend({
   },
 
   loginUserFromView: function(){
-    var userInput = {
-          email: $('input[name="user-email"]').val(),
-          password: $('input[name="user-password"]').val()
-        };
+    var email = $('input[name="user-email"]').val(),
+        password = $('input[name="user-password"]').val(),
+        rememberMe = parseInt($('input[name="user-remember-me"]').val());
 
-    this.model.loginUserWithCredentials(userInput,
-                                      this._renderAsLoggedIn,
-                                      this._renderAsLoggedOut);
+    this.model.loginUserWithCredentials({
+      email: email,
+      password: password,
+      remember_me: rememberMe,
+      success: this._renderAsLoggedIn.bind(this),
+      error: this._renderAsLoggedOut.bind(this)
+    });
   }, 
 
   _hasTemplate: function(template){

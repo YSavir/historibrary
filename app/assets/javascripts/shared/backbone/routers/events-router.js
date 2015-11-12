@@ -3,7 +3,13 @@ App.Routers.Event = Backbone.Router.extend({
   initialize: function(){
     this.session = new App.Models.Session();
     this.sessionView = new App.Views.Session({model: this.session});
-    this.sessionView.render();
+
+    this.session.syncToServerSession({
+      success: function(user){
+        var template = user ? 'loggedIn' : 'loggedOut';
+        this.sessionView.render({as: template});
+      }.bind(this)
+    });
 
     this.collection = new App.Collections.Event({
       session: this.session

@@ -7,10 +7,13 @@ describe('templates/session', function(){
   describe('loggedIn', function(){
     it('should render the HTML for a logged in session', function(){
       var user = Doubles.Models.User(),
+          session = new App.Models.Session({user: user}),
           targetHTML = "Welcome, they\n"
-                     + "<a href='/users/sign_out'>Sign Out</a>\n";
+                     + "<div data-no-turbolinks>\n"
+                     + "<a data-method=\"delete\" href=\"/users/sign_out\" rel=\"nofollow\">Sign Out</a>\n"
+                     + "</div>\n"
 
-      expect(HandlebarsTemplates['sessions/loggedIn'](user)).to.equal(targetHTML);
+      expect(HandlebarsTemplates['sessions/loggedIn'](session)).to.equal(targetHTML);
     });
   });
 

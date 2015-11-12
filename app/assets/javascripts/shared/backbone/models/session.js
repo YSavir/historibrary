@@ -7,47 +7,71 @@ App.Models.Session = Backbone.Model.extend({
   },
 
   initialize: function(){
-    this.syncToServerSession();
   },
 
   hasLoggedInUser: function(){
     return this.get('user').isSignedIn();
   },
 
-  loginUserWithCredentials: function(email, password, rememberMe){
-    rememberMe = rememberMe || 0;
+  addUser: function(userData, callback){
+    this.set('user', new App.Models.User(userData));
+
+    if (_.isFunction(callback)) { callback() };
+  },
+
+  currentUsername: function(){
+    return this.get('user').get('username');
+  },
+
+  loginUserWithCredentials: function(opts){
+    var data;
+    opts = opts || {};
+    data = {
+      user: {
+        email: opts.email,
+        password: opts.password,
+        remember_me: opts.rememberMe || 0
+      }
+    };
 
     $.ajax({
-      data: {
-        user: {
-          email: email,
-          password: password,
-          remember_me: rememberMe
-        }
-      },
+      data: data, 
       url: '/users/sign_in',
       method: 'POST',
       dataType: 'JSON',
       context: this,
-      success: this.addUser,
-      error: this.logError,
-      beforeSend: this.getCSRFToken
+      success: function(data){
+        this.addUser(data);
+        if (_.isFunction(opts.success)) { opts.success()} ;
+      },
+      error: function(data){
+        if (_.isFunction(opts.error)) { opts.error()} ;
+      },
+      beforeSend: this._getCSRFToken
     }); 
   },
 
-  syncToServerSession: function(){
+  syncToServerSession: function(opts){
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
+    opts = opts || {};
 
     $.ajax({
       url: '/sessions/current',
       method: 'GET',
       dataType: 'json',
       context: this,
-      beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', csrfToken)},
+      beforeSend: this._getCSRFToken,
       success: function(data){
         this.set('user', new App.Models.User(data.user));
+        if (_.isFunction(opts.success)) { opts.success(data.user)} ;
       },
       error: function(e){  }
     });
+  },
+
+  _getCSRFToken: function(xhr){
+    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+    xhr.setRequestHeader('X-CSRF-Token', csrfToken);
   }
+
 });
