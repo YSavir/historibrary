@@ -24,7 +24,7 @@ describe('templates/session', function(){
                      + "<input type='checkbox' name='user-remember-me' value='1'>\n"
                      + "<input type='submit' name='login-submit' value='Sign In'>\n"
                      + "<a href='/users/password/new'>Forgot your password?</a>\n"
-                     + "<a href='/users/sign_up>Sign Up</a>\n";
+                     + "<a href='/users/sign_up'>Sign Up</a>\n";
 
       expect(HandlebarsTemplates['sessions/loggedOut']()).to.equal(targetHTML);
     });

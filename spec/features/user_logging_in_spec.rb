@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'User Logging In' do
+RSpec.describe 'User Logging In', :js => true do
   context 'As a user visiting the site' do
     scenario 'I should be able to log in' do
       user = create :user
@@ -8,7 +8,7 @@ RSpec.describe 'User Logging In' do
       visit '/events'
       fill_in 'user-email', :with => user.email
       fill_in 'user-password', :with => user.password
-      click_button 'Sign in'
+      click_button 'Sign In'
 
       expect(page).to have_content "Welcome, #{user.username}"
     end
