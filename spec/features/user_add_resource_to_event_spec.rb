@@ -1,6 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe 'As a user that is viewing an event\'s details', :type => :feature, :js => true do
+RSpec.describe 'As a user that is viewing an event\'s details',
+                                             :type => :feature,
+                                             :js => true do
   context 'and is logged in' do
     context 'and submits a resource' do
       scenario 'I should see that resource added to the event\'s resource list' do
@@ -11,7 +13,8 @@ RSpec.describe 'As a user that is viewing an event\'s details', :type => :featur
       log_in_as user
 
       event_li = page.find('.content.events ul li')
-      event_li.click
+      event_li.trigger 'click'
+      page.find('.content.events ul li').trigger('click')
       event_li.click_button("Add a Resource")
       form = page.find('.new-resource-form')
       form.fill_in 'resource[name]', :with => resource_details[:name]
