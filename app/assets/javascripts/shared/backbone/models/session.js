@@ -15,6 +15,7 @@ App.Models.Session = Backbone.Model.extend({
 
   addUser: function(userData, callback){
     this.set('user', new App.Models.User(userData));
+    this.trigger('loggedIn');
 
     if (_.isFunction(callback)) { callback() };
   },

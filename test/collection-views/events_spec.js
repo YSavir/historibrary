@@ -14,7 +14,7 @@ describe('collection-views/events', function(){
     
     return new App.CollectionViews.Event({
       collection: collection,
-      session: {}
+      session: opts.session || {}
     });
   };
 
@@ -30,6 +30,15 @@ describe('collection-views/events', function(){
           collView = new App.CollectionViews.Event({collection: coll});
 
       expect(spy).to.have.been.calledWith(collView.resourceCollection);
+    });
+
+    it('should listen to its session for a \'loggedIn\' event and respond by rendering', function(){
+      var renderSpy = sandbox.spy(App.CollectionViews.Event.prototype, 'render'),
+          collView = buildCollView({session: new App.Models.Session()});
+
+      collView.session.trigger('loggedIn');
+
+      expect(renderSpy).to.have.been.called;
     });
   });
 

@@ -21,6 +21,7 @@
   <!-- Test Env -->
   <script src="../support/doubles/events.js"></script>
   <script src="../support/doubles/resources.js"></script>
+  <script src="../support/doubles/sessions.js"></script>
   <script src="../support/behave-as/backbone-view.js"></script>
   <script src="../factories/models/event.js"></script>
   <script>mocha.setup('bdd')</script>
@@ -29,14 +30,16 @@
   <script src="./javascripts/templates.js"></script>
   <script src="../../app/assets/javascripts/shared/setup.js"></script>
   <script src="../../app/assets/javascripts/shared/backbone/models/event-model.js"></script>
+  <script src="../../app/assets/javascripts/shared/backbone/models/session.js"></script>
+  <script src="../../app/assets/javascripts/shared/backbone/models/user.js"></script>
   <script src="../../app/assets/javascripts/shared/backbone/views/event-view.js"></script>
   <script src="../../app/assets/javascripts/shared/backbone/collections/events-collection.js"></script>
   <script src="../../app/assets/javascripts/shared/backbone/collection-views/events-collection-view.js"></script>
 
   <!-- Specs  -->
+  <script src="../collection-views/events_spec.js"></script>
   <script src="../collections/events_spec.js"></script>
   <script src="../models/events_spec.js"></script>
-  <script src="../collection-views/events_spec.js"></script>
   <script src="../templates/events_spec.js"></script>
   <script src="../views/events_spec.js"></script>
 

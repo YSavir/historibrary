@@ -5,7 +5,10 @@ App.CollectionViews.Event = Backbone.View.extend({
   initialize: function(opts){
     opts = opts || {};
     var coll = this.collection;
-    if (opts.session) this.session = opts.session;
+    if (opts.session instanceof App.Models.Session) {
+      this.session = opts.session;
+      this.listenTo(this.session, 'loggedIn', this.render);
+    }
 
     this.$el = $('.events.content');
     this.resourceCollection = new App.Collections.Resource;

@@ -134,6 +134,15 @@ describe('models/session', function(){
 
       expect(spy).to.have.been.called;
     });
+
+    it('should trigger \'loggedIn\'', function(){
+      var session = new App.Models.Session(),
+          spy = sandbox.spy(session, 'trigger');
+
+      session.addUser({});
+
+      expect(spy).to.have.been.calledWith('loggedIn');
+    });
   });
 
   describe('.syncToServerSession', function(){
