@@ -1,0 +1,46 @@
+.modul {
+  position: fixed;
+  margin: auto auto;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  top: 0;
+
+  background-color: rgba($hparchment, .7);
+
+  .modul-content {
+    position: relative;
+    width: 600px;
+    top: 150px;
+
+    margin: 0 auto;
+    padding: 40px;
+
+    background-color: darken($hparchment, 5);
+
+    h3 {
+      font-size: 2em;
+    }
+
+    p, .field {
+      color: $hink;
+      font-weight: bold;
+      margin: 10px 20px 10px 0;
+    }
+
+    input {
+      background-color: lighten($hparchment, 5);
+      border: none;
+      padding: 5px;
+
+      &:focus{
+        background-color: lighten($hparchment, 15);
+        color: lighten($hink, 10);
+      }
+    }
+
+    .actions input:hover {
+      background-color: darken($hparchment, 15);
+    }
+  }
+}

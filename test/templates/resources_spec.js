@@ -37,13 +37,21 @@ describe('templates/resources', function(){
   describe('new', function(){
     it('should renter the HTML for a new resource form', function(){
       var targetHTML = "<form class=\"new-resource-form\">\n"
+                     + "<div class='field'>\n"
                      + "<label for=\"new-resource-name\">Name:</label>\n"
                      + "<input type=\"text\" name=\"resource[name]\">\n"
+                     + "</div>\n"
+                     + "<div class='field'>\n"
                      + "<label for=\"new-resource-summary\">Summary:</label>\n"
                      + "<input type=\"text\" name=\"resource[summary]\">\n"
+                     + "</div>\n"
+                     + "<div class='field'>\n"
                      + "<label for=\"new-resource-source-url\">Source URL:</label>\n"
                      + "<input type=\"text\" name=\"resource[source_url]\">\n"
+                     + "</div>\n"
+                     + "<div class='actions'>\n"
                      + "<input type=\"submit\" value=\"Submit Resource\">\n"
+                     + "</div>\n"
                      + "</form>\n";
 
       expect(HandlebarsTemplates['resources/new']()).to.equal(targetHTML);
