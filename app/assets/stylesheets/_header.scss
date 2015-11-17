@@ -1,7 +1,27 @@
 header {
-  background-color: $hink;
+  background-color: $hparchment;
+  padding: 15px;
 
-  .session {
+  p {
+    color: $hink;
+  }
+
+  .session-login {
     float: right;
+    padding: 10px;
+    color: $hink;
+
+    div {
+      padding: 10px;
+      margin-left: 20px;
+      background-color: darken($hparchment, 5);
+      text-align: center;
+      display: inline-block;
+
+      a {
+        text-decoration: none;
+        color: darken($hink, 5);
+      }
+    }
   }
 }

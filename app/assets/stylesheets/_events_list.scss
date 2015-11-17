@@ -28,7 +28,7 @@
       background-color: lighten($hparchment, 5);
       display: inline-block;
       vertical-align: top;
-      max-width: 150px;
+      max-width: 200px;
       overflow-x: hidden;
       white-space: nowrap;
 
@@ -88,6 +88,7 @@
 
           a {
             font-weight: bold;
+            text-decoration: none;
             color: darken($hink, 5);
           }
         }
