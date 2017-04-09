@@ -1,5 +1,22 @@
 <header>
-  <div class="session-login"></div>
+  <div id="session-login">
+    <div id="signed-in-session" v-if="activeSession()">
+      Welcome, {{ user.get('username') }}
+      <div data-no-turbolinks>
+        <a data-method="delete" href="/users/sign_out" rel="nofollow">Sign Out</a>
+      </div>
+    </div>
+    <div id="signed-out-session" v-if="!activeSession()">
+      <form v-on:submit.prevent="signIn">
+        <input name='user-email' placeholder='email' v-model="userEmail">
+        <input type='password' name='user-password' placeholder='password' v-model="userPassword">
+        <input type='checkbox' name='user-remember-me' value='1' v-model="rememberMe">
+        <input type='submit' name='login-submit' value='Sign In' >
+        <a href='/users/password/new'>Forgot your password?</a>
+        <a href='/users/sign_up'>Sign Up</a>
+      </form>
+    </div>
+  </div>
   <h1>Historibrary</h1>
   <p class="tagline">A collection of historical events and related resources<br>Fiction and Nonfiction</p>
 </header>

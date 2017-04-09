@@ -7,6 +7,7 @@ App.Models.Session = Backbone.Model.extend({
   },
 
   initialize: function(){
+    this.syncToServerSession();
   },
 
   hasLoggedInUser: function(){
@@ -24,8 +25,14 @@ App.Models.Session = Backbone.Model.extend({
     return this.get('user').get('username');
   },
 
+  isActive: function(){
+    return this.user && this.user.isSignedIn();
+  },
+
   loginUserWithCredentials: function(opts){
-    var data;
+    var data,
+        deferred = $.Deferred();
+
     opts = opts || {};
     data = {
       user: {
@@ -43,6 +50,7 @@ App.Models.Session = Backbone.Model.extend({
       context: this,
       success: function(data){
         this.addUser(data);
+        deferred.resolve();
         if (_.isFunction(opts.success)) { opts.success()} ;
       },
       error: function(data){
@@ -50,6 +58,8 @@ App.Models.Session = Backbone.Model.extend({
       },
       beforeSend: this._getCSRFToken
     }); 
+
+    return deferred;
   },
 
   syncToServerSession: function(opts){
