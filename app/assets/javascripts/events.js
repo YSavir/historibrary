@@ -3,6 +3,7 @@
 //= require turbolinks
 //= require underscore
 //= require backbone
+//= require vue
 //= require handlebars.runtime
 //= require_tree ./templates
 //= require shared/setup.js
