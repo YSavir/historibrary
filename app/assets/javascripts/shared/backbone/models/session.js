@@ -6,17 +6,12 @@ App.Models.Session = Backbone.Model.extend({
     }
   },
 
-  initialize: function(){
-    this.syncToServerSession();
-  },
-
   hasLoggedInUser: function(){
     return this.get('user').isSignedIn();
   },
 
   addUser: function(userData, callback){
     this.set('user', new App.Models.User(userData));
-    this.trigger('loggedIn');
 
     if (_.isFunction(callback)) { callback() };
   },
@@ -63,7 +58,8 @@ App.Models.Session = Backbone.Model.extend({
   },
 
   syncToServerSession: function(opts){
-    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+    var csrfToken = $('meta[name="csrf-token"]').attr('content'),
+        deferred = $.Deferred();
     opts = opts || {};
 
     $.ajax({
@@ -75,14 +71,16 @@ App.Models.Session = Backbone.Model.extend({
       success: function(data){
         this.set('user', new App.Models.User(data.user));
         if (_.isFunction(opts.success)) { opts.success(data.user)} ;
+        deferred.resolve();
       },
       error: function(e){  }
     });
+
+    return deferred;
   },
 
   _getCSRFToken: function(xhr){
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
     xhr.setRequestHeader('X-CSRF-Token', csrfToken);
   }
-
 });
