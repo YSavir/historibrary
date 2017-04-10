@@ -15,11 +15,14 @@ $(function(){
 
     methods: {
       toggleDetails: function(event){
-        if ( this.detailedEvent == event ) {
+        if ( this.isCurrentEvent(event) ) {
           this.detailedEvent = null;
         } else {
           this.detailedEvent = event;
         };
+      },
+      isCurrentEvent: function(event){
+        return this.detailedEvent === event;
       }
     }
   })

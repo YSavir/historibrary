@@ -24,11 +24,6 @@ App.Models.Event = Backbone.Model.extend({
       : this._joinedDates();
   },
 
-  addResource: function(resource){
-    this.get('resources').push(resource);
-    this.trigger('change');
-  },
-
   stringifiedStartDate: function(){
     return this._stringifyDate(this.get('start_date'));
   },

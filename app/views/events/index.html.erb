@@ -2,7 +2,7 @@
   <h2>Events</h2>
   <hr class="bar">
   <ul>
-    <li v-for="event in eventsByDate" v-on:click="toggleDetails(event)">
+    <li v-for="event in eventsByDate" v-on:click="toggleDetails(event)" v-bind:class="{ details: isCurrentEvent(event) }">
       <h3>{{ event.get('name') }}</h3>
       <p>{{ event.dateRange() }}</p>
       <div v-if="detailedEvent === event">
@@ -10,10 +10,10 @@
         <div>
           <h4>Event Resources</h4>
           <ul>
-            <li v-for="resource in event.resources">
-              <h5>{{ event.get('name') }}</h5>
-              <p>{{ event.get('summary') }}</p>
-              <p v-if="event.get('source_url')">See it on <a :href="event.source_url" target="_blank">{{ sourceName }}</a></p>
+            <li v-for="resource in event.get('resources')">
+              <h5>{{ resource.get('name') }}</h5>
+              <p>{{ resource.get('summary') }}</p>
+              <p v-if="resource.get('source_url')">See it on <a :href="resource.get('source_url')" target="_blank">{{ resource.sourceName() }}</a></p>
             </li>
           </ul>
         </div>
